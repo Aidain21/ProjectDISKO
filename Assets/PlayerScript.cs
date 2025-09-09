@@ -56,7 +56,7 @@ public class PlayerScript : MonoBehaviour
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z);
             }
 
-            if (Input.GetKeyDown(KeyCode.E) && onGround == false && activeAbility == "DashOnBeat" && transform.GetChild(0).GetComponent<MusicScript>().onTempo && canDash)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && activeAbility == "DashOnBeat" && transform.GetChild(0).GetComponent<MusicScript>().onTempo && canDash)
             {
                 Debug.Log("Aa");
                 StartCoroutine(Dash(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"))));
@@ -109,14 +109,30 @@ public class PlayerScript : MonoBehaviour
         //Speed up over time
         if (rb.linearVelocity != Vector3.zero)
         {
-            if (curSpeed < maxSpeed)
+            if (onGround)
             {
-                curSpeed += Time.deltaTime * 5;
+                if (curSpeed < maxSpeed)
+                {
+                    curSpeed += Time.deltaTime * 5;
+                }
+                if (curSpeed > maxSpeed)
+                {
+                    curSpeed = maxSpeed;
+                }
             }
-            if (curSpeed > maxSpeed)
+            //probably couldve wrote this better but oh well
+            else
             {
-                curSpeed = maxSpeed;
+                if (curSpeed < maxSpeed/2)
+                {
+                    curSpeed += Time.deltaTime * 5;
+                }
+                if (curSpeed > maxSpeed/2)
+                {
+                    curSpeed = maxSpeed/2;
+                }
             }
+            
         }
         else
         {
