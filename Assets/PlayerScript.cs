@@ -5,12 +5,14 @@ public class PlayerScript : MonoBehaviour
 {
     Rigidbody rb;
     public Camera cam;
-    public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 10f, jumpForce;
+    public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 10f, jumpForce, airTime;
     public bool canJump = true, alreadyBoosted, onGround, canDash = true, inputsEnabled = true;
     public TMP_Text speedTracker, ballerText, comboText;
-    public bool baller;
+    public bool baller, infiniteDash;
     public int invert, combo;
     public string activeAbility;
+    public GameObject testBall, dashCheckBall;
+    public IEnumerator dash;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,6 +20,7 @@ public class PlayerScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         activeAbility = "JumpToBeat";
+        dashCheckBall = transform.GetChild(2).gameObject;
     }
 
     // Update is called once per frame
@@ -26,11 +29,11 @@ public class PlayerScript : MonoBehaviour
         if (inputsEnabled)
         {
             //Moves player
-            rb.linearVelocity = new Vector3(Input.GetAxisRaw("Horizontal") * curSpeed * invert, rb.linearVelocity.y, Input.GetAxisRaw("Vertical") * curSpeed * invert);
+            rb.linearVelocity = new Vector3(Input.GetAxisRaw("Horizontal") * curSpeed * invert, rb.linearVelocity.y + -airTime * 0.2f, Input.GetAxisRaw("Vertical") * curSpeed * invert);
 
             if (activeAbility == "DashOnBeat")
             {
-                transform.GetChild(2).localPosition = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+               dashCheckBall.transform.localPosition = new Vector3(Input.GetAxisRaw("Horizontal") * 0.25f, 0, Input.GetAxisRaw("Vertical") * 0.25f);
             }
 
             //jump
@@ -56,10 +59,11 @@ public class PlayerScript : MonoBehaviour
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z);
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && activeAbility == "DashOnBeat" && transform.GetChild(0).GetComponent<MusicScript>().onTempo && canDash)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && activeAbility == "DashOnBeat" 
+                && (transform.GetChild(0).GetComponent<MusicScript>().onTempo||infiniteDash) && canDash )
             {
-                Debug.Log("Aa");
-                StartCoroutine(Dash(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"))));
+                dash = Dash(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")));
+                StartCoroutine(dash);
 
             }
             if (Input.GetKeyDown(KeyCode.Alpha1)) { activeAbility = "JumpToBeat"; }
@@ -106,6 +110,8 @@ public class PlayerScript : MonoBehaviour
             cam.transform.eulerAngles = new Vector3(25, 180, 0);
         }
 
+        airTime = !onGround ? airTime + Time.deltaTime : 0;
+
         //Speed up over time
         if (rb.linearVelocity != Vector3.zero)
         {
@@ -123,13 +129,14 @@ public class PlayerScript : MonoBehaviour
             //probably couldve wrote this better but oh well
             else
             {
-                if (curSpeed < maxSpeed/2)
+                float maxAirSpeed = maxSpeed / (2.5f + airTime);
+                if (curSpeed < maxAirSpeed)
                 {
                     curSpeed += Time.deltaTime * 5;
                 }
-                if (curSpeed > maxSpeed/2)
+                if (curSpeed > maxAirSpeed)
                 {
-                    curSpeed = maxSpeed/2;
+                    curSpeed = maxAirSpeed;
                 }
             }
             
@@ -165,12 +172,12 @@ public class PlayerScript : MonoBehaviour
         rb.useGravity = false;
         rb.linearVelocity = Vector3.zero;
         Vector3 start = transform.position;
-        Vector3 end = transform.position + dir * 4.5f;
+        Vector3 end = transform.position + dir * 3f;
         float elapsedTime = 0;
-        while (elapsedTime < 0.2f)
+        while (elapsedTime < 0.15f)
         {
-            Vector3 data = Vector3.Lerp(start, end, (elapsedTime / 0.2f));
-            transform.position = new Vector3(data.x, data.y, transform.position.z);
+            Vector3 data = Vector3.Lerp(start, end, (elapsedTime / 0.15f));
+            rb.MovePosition(new Vector3(data.x, transform.position.y, data.z));
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
@@ -181,7 +188,7 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         onGround = true;
         canJump = true;
@@ -190,5 +197,17 @@ public class PlayerScript : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         onGround = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!canDash)
+        {
+            StopCoroutine(dash);
+            rb.useGravity = true;
+            canDash = true;
+            inputsEnabled = true;
+            GetComponent<SpriteRenderer>().color = Color.white;
+        }
     }
 }
