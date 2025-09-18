@@ -9,10 +9,11 @@ public class PlayerScript : MonoBehaviour
     public bool canJump = true, alreadyBoosted, onGround, canDash = true, inputsEnabled = true;
     public TMP_Text speedTracker, ballerText, comboText;
     public bool baller, infiniteDash;
-    public int invert, combo;
+    public int combo;
     public string activeAbility;
     public GameObject testBall, dashCheckBall;
     public IEnumerator dash;
+    public bool left;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,7 +30,17 @@ public class PlayerScript : MonoBehaviour
         if (inputsEnabled)
         {
             //Moves player
-            rb.linearVelocity = new Vector3(Input.GetAxisRaw("Horizontal") * curSpeed * invert, rb.linearVelocity.y + -airTime * 0.2f, Input.GetAxisRaw("Vertical") * curSpeed * invert);
+            rb.linearVelocity = new Vector3(Input.GetAxisRaw("Horizontal") * curSpeed, rb.linearVelocity.y + -airTime * 0.07f, Input.GetAxisRaw("Vertical") * curSpeed);
+            if (Input.GetKeyDown(KeyCode.A) && !left)
+            {
+                StartCoroutine(Flip(left));
+                left = !left;
+            }
+            if (Input.GetKeyDown(KeyCode.D) && left)
+            {
+                StartCoroutine(Flip(left));
+                left = !left;
+            }
 
             if (activeAbility == "DashOnBeat")
             {
@@ -99,13 +110,11 @@ public class PlayerScript : MonoBehaviour
         //Moves camera with player
         if (transform.position.z <= 2.5f)
         {
-            invert = 1;
             cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2.5f, -5);
             cam.transform.eulerAngles = new Vector3(25, 0, 0);
         }
         else if (transform.position.z >= 3.5f)
         {
-            invert = -1;
             cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2.5f, 10);
             cam.transform.eulerAngles = new Vector3(25, 180, 0);
         }
@@ -164,6 +173,33 @@ public class PlayerScript : MonoBehaviour
         comboText.text = "Combo: " + combo + wow;
     }
 
+    public IEnumerator Flip(bool left)
+    {
+        Vector3 start, end;
+        if (left)
+        {
+            start = new Vector3(0,180,0);
+            end = Vector3.zero;
+
+        }
+        else
+        {
+            end = new Vector3(0, 180, 0);
+            start = Vector3.zero;
+        }
+        
+        float elapsedTime = 0;
+        while (elapsedTime < 0.15f)
+        {
+            Vector3 data = Vector3.Lerp(start, end, (elapsedTime / 0.15f));
+            transform.eulerAngles = data;
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        transform.eulerAngles = end;
+
+    }
     public IEnumerator Dash(Vector3 dir)
     {
         GetComponent<SpriteRenderer>().color = Color.cyan;

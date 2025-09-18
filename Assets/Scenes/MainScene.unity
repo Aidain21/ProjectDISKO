@@ -1051,7 +1051,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ce991fdb392c5ab4381f0f6e404aec25, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a998ecb8d10e6d444b4a4a2a18f645fe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1113,6 +1113,7 @@ MonoBehaviour:
   activeAbility: 
   testBall: {fileID: 7083403020590635542, guid: a0a7f590916837c4db218dbcda6bb944, type: 3}
   dashCheckBall: {fileID: 0}
+  left: 0
 --- !u!54 &849198404
 Rigidbody:
   m_ObjectHideFlags: 0
