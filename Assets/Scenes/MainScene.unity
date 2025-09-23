@@ -829,7 +829,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 412546865}
-  - component: {fileID: 412546866}
   m_Layer: 0
   m_Name: OnGround
   m_TagString: Untagged
@@ -846,33 +845,12 @@ Transform:
   m_GameObject: {fileID: 412546864}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.535, z: 0}
+  m_LocalPosition: {x: 0, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 849198402}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &412546866
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412546864}
-  m_Material: {fileID: 13400000, guid: ad56c0e263a4e1848b2cfbb01f71fde0, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.2, y: 0.01, z: 0.2}
-  m_Center: {x: 0, y: 0.08, z: 0}
 --- !u!1 &426617842
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,7 +1077,7 @@ MonoBehaviour:
   jumpForce: 0
   airTime: 0
   canJump: 1
-  alreadyBoosted: 0
+  boostOnCooldown: 0
   onGround: 0
   canDash: 1
   inputsEnabled: 1
@@ -1108,12 +1086,14 @@ MonoBehaviour:
   comboText: {fileID: 1730411590}
   baller: 0
   infiniteDash: 0
-  invert: 0
   combo: 0
   activeAbility: 
   testBall: {fileID: 7083403020590635542, guid: a0a7f590916837c4db218dbcda6bb944, type: 3}
   dashCheckBall: {fileID: 0}
   left: 0
+  sprites:
+  - {fileID: 21300000, guid: a998ecb8d10e6d444b4a4a2a18f645fe, type: 3}
+  - {fileID: 21300000, guid: c1048936069d60d4da5a053889265177, type: 3}
 --- !u!54 &849198404
 Rigidbody:
   m_ObjectHideFlags: 0

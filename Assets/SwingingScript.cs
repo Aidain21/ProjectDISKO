@@ -1,5 +1,10 @@
 using UnityEngine;
 
+
+
+
+
+// gonna be honest idk what goes on here
 public class SwingingScript : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created

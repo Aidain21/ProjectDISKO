@@ -36,9 +36,10 @@ public class MusicScript : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
         onTempo = false;
         yield return new WaitForSeconds(0.1f);
-        transform.parent.GetComponent<PlayerScript>().alreadyBoosted = false;
+        transform.parent.GetComponent<PlayerScript>().boostOnCooldown = false;
     }
 
+    //track is index of the music in the tracks array, bpm for the bpm (may need to be worked on)
     public void ChangeMusic(int track, int _bpm)
     {
         music.clip = tracks[track];
