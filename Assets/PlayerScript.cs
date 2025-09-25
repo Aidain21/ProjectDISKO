@@ -5,13 +5,13 @@ public class PlayerScript : MonoBehaviour
 {
     Rigidbody rb;
     public Camera cam;
-    public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 10f, jumpForce, airTime;
+    public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce, airTime;
     public bool canJump = true, boostOnCooldown, onGround, canDash = true, inputsEnabled = true;
     public TMP_Text speedTracker, ballerText, comboText;
     public bool baller, infiniteDash;
     public int combo;
     public string activeAbility;
-    public GameObject testBall, dashCheckBall;
+    public GameObject testBall;
     public IEnumerator dash;
     public bool left;
     public Sprite[] sprites;
@@ -22,7 +22,7 @@ public class PlayerScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         activeAbility = "JumpToBeat";
-        dashCheckBall = transform.GetChild(2).gameObject;
+        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -60,13 +60,7 @@ public class PlayerScript : MonoBehaviour
                 GetComponent<SpriteRenderer>().sprite = sprites[0];
             }
 
-            //Enables the orb of dashing (fix for rotation)
-            if (activeAbility == "DashOnBeat")
-            {
-               dashCheckBall.transform.localPosition = new Vector3(Input.GetAxisRaw("Horizontal") * 0.25f, 0, Input.GetAxisRaw("Vertical") * 0.25f);
-            }
 
-           
 
             //jump
             if (Input.GetKeyDown(KeyCode.Space))
@@ -76,7 +70,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     rb.AddForce(Vector3.up * 7, ForceMode.Impulse);
                 }
-                
+
                 //mid air twirl like mario when the right ability is active and on tempo, tracks the combo too.
                 if (transform.GetChild(0).GetComponent<MusicScript>().onTempo && !boostOnCooldown && activeAbility == "JumpToBeat" && !onGround)
                 {
@@ -85,7 +79,7 @@ public class PlayerScript : MonoBehaviour
                     airTime = 0f;
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
                     rb.AddForce(Vector3.up * 7, ForceMode.Impulse);
-                    
+
                     StartCoroutine(Flip(!left, true));
 
                 }
@@ -104,11 +98,46 @@ public class PlayerScript : MonoBehaviour
 
 
             //Initiates dash if everything here is good.
-            if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && activeAbility == "DashOnBeat" 
-                && (transform.GetChild(0).GetComponent<MusicScript>().onTempo||infiniteDash) && canDash )
+            if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && activeAbility == "DashOnBeat"
+                && (transform.GetChild(0).GetComponent<MusicScript>().onTempo || infiniteDash) && canDash)
             {
-                dash = Dash(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")));
-                StartCoroutine(dash);
+                if (!Physics.Raycast(transform.position, new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0), out hit, 0.3f) &&
+                    !Physics.Raycast(transform.position, new Vector3(0, 0, Input.GetAxisRaw("Vertical")), out hit, 0.3f))
+                {
+                    dash = Dash(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")));
+                    StartCoroutine(dash);
+                }
+               
+
+            }
+
+            if (Input.GetKeyDown(KeyCode.E) && activeAbility == "BomberBunny")
+            {
+                var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+                Vector3 rot;
+                if (dir == Vector3.back)
+                {
+                    
+                }
+                else if (dir == Vector3.forward)
+                {
+
+                }
+                else if (dir == Vector3.left)
+                {
+
+                }
+                else if (dir == Vector3.right)
+                {
+                    rot = Vector3.zero;
+                }
+                else
+                {
+
+                }
+
+
+                Instantiate(testBall, transform.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), Quaternion.identity);
 
             }
 
@@ -116,6 +145,7 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1)) { activeAbility = "JumpToBeat"; }
             if (Input.GetKeyDown(KeyCode.Alpha2)) { activeAbility = "Swing"; }
             if (Input.GetKeyDown(KeyCode.Alpha3)) { activeAbility = "DashOnBeat"; }
+            if (Input.GetKeyDown(KeyCode.Alpha4)) { activeAbility = "BomberBunny"; }
 
             //B A L L E R
             if (Input.GetKeyDown(KeyCode.B))
@@ -146,12 +176,12 @@ public class PlayerScript : MonoBehaviour
         //Moves camera with player, first for normal, second for the backside (backside needs a ton of work with controls being inverted due to camera angle)
         if (transform.position.z <= 2.5f)
         {
-            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2.5f, -5);
+            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2.5f, -7);
             cam.transform.eulerAngles = new Vector3(25, 0, 0);
         }
         else if (transform.position.z >= 3.5f)
         {
-            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2.5f, 10);
+            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2.5f, 12);
             cam.transform.eulerAngles = new Vector3(25, 180, 0);
         }
 
@@ -176,7 +206,7 @@ public class PlayerScript : MonoBehaviour
             //in air movement speeds (still probably needs to be capped even more)
             else
             {
-                float maxAirSpeed = maxSpeed / (3f + airTime * 1.4f);
+                float maxAirSpeed = maxSpeed / (1.2f + airTime * 3f);
                 if (curSpeed < maxAirSpeed)
                 {
                     curSpeed += Time.deltaTime * 5;
@@ -198,9 +228,6 @@ public class PlayerScript : MonoBehaviour
         {
             transform.position = Vector3.up;
         }
-        
-
-        
 
     }
 
@@ -270,6 +297,14 @@ public class PlayerScript : MonoBehaviour
             rb.MovePosition(new Vector3(data.x, transform.position.y, data.z));
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
+
+
+            RaycastHit hit;
+            bool noDash = Physics.Raycast(transform.position, dir, out hit, 0.3f);
+            if (noDash)
+            {
+                elapsedTime = 100;
+            }
         }
         rb.useGravity = true;
         canDash = true;
@@ -279,15 +314,4 @@ public class PlayerScript : MonoBehaviour
     }
 
     //No dashing into walls please i beg  you
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (!canDash)
-        {
-            StopCoroutine(dash);
-            rb.useGravity = true;
-            canDash = true;
-            inputsEnabled = true;
-            GetComponent<SpriteRenderer>().color = Color.white;
-        }
-    }
 }
