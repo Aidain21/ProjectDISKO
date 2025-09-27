@@ -9,7 +9,7 @@ public class PlayerScript : MonoBehaviour
     public bool canJump = true, boostOnCooldown, onGround, canDash = true, inputsEnabled = true;
     public TMP_Text speedTracker, ballerText, comboText;
     public bool baller, infiniteDash;
-    public int combo;
+    public int combo, invert;
     public string activeAbility;
     public GameObject testBall;
     public IEnumerator dash;
@@ -36,7 +36,7 @@ public class PlayerScript : MonoBehaviour
         if (inputsEnabled)
         {
             //Moves player
-            rb.linearVelocity = new Vector3(Input.GetAxisRaw("Horizontal") * curSpeed, rb.linearVelocity.y + -airTime * 0.07f, Input.GetAxisRaw("Vertical") * curSpeed);
+            rb.linearVelocity = GetInput() * curSpeed + new Vector3(0, rb.linearVelocity.y + -airTime * 0.07f, 0);
 
             //Flips sprite with little animation based on movement
             if (Input.GetKeyDown(KeyCode.A) && !left)
@@ -63,7 +63,7 @@ public class PlayerScript : MonoBehaviour
 
 
             //jump
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && activeAbility != "MusicComboTest")
             {
                 //default off ground jump
                 if (onGround)
@@ -89,6 +89,18 @@ public class PlayerScript : MonoBehaviour
                 }
 
             }
+            else if (Input.GetKeyDown(KeyCode.Space) && activeAbility == "MusicComboTest")
+            {
+                if (transform.GetChild(0).GetComponent<MusicScript>().onTempo && !boostOnCooldown)
+                {
+                    ComboUp(combo);
+                    boostOnCooldown = true;
+                }
+                else
+                {
+                    ComboUp(-1);
+                }
+            }
 
             //allows for small jumps
             if (Input.GetKeyUp(KeyCode.Space) && rb.linearVelocity != Vector3.zero && rb.linearVelocity.y > 0)
@@ -101,10 +113,10 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && activeAbility == "DashOnBeat"
                 && (transform.GetChild(0).GetComponent<MusicScript>().onTempo || infiniteDash) && canDash)
             {
-                if (!Physics.Raycast(transform.position, new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0), out hit, 0.3f) &&
-                    !Physics.Raycast(transform.position, new Vector3(0, 0, Input.GetAxisRaw("Vertical")), out hit, 0.3f))
+                if (!Physics.Raycast(transform.position, new Vector3(GetInput().x, 0, 0), out hit, 0.3f) &&
+                    !Physics.Raycast(transform.position, new Vector3(0, 0, GetInput().z), out hit, 0.3f))
                 {
-                    dash = Dash(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")));
+                    dash = Dash(GetInput());
                     StartCoroutine(dash);
                 }
                
@@ -113,35 +125,18 @@ public class PlayerScript : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E) && activeAbility == "BomberBunny")
             {
-                var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-                Vector3 rot;
-                if (dir == Vector3.back)
+                Vector3 spawn = transform.position + GetInput();
+                if (spawn != transform.position)
                 {
-                    
-                }
-                else if (dir == Vector3.forward)
-                {
+                    Instantiate(testBall, spawn, Quaternion.identity);
 
                 }
-                else if (dir == Vector3.left)
-                {
-
-                }
-                else if (dir == Vector3.right)
-                {
-                    rot = Vector3.zero;
-                }
-                else
-                {
-
-                }
-
-
-                Instantiate(testBall, transform.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), Quaternion.identity);
+                
 
             }
 
             //Change between abilities (temporary possibly)
+            if (Input.GetKeyDown(KeyCode.BackQuote)) { activeAbility = "MusicComboTest"; }
             if (Input.GetKeyDown(KeyCode.Alpha1)) { activeAbility = "JumpToBeat"; }
             if (Input.GetKeyDown(KeyCode.Alpha2)) { activeAbility = "Swing"; }
             if (Input.GetKeyDown(KeyCode.Alpha3)) { activeAbility = "DashOnBeat"; }
@@ -165,6 +160,8 @@ public class PlayerScript : MonoBehaviour
                 }
             }
 
+            if (Input.GetKeyDown(KeyCode.P)) { transform.GetChild(0).GetComponent<MusicScript>().NextTrack(); }
+
         }
 
         //Text that tracks the velocity of the player, and the active ability
@@ -173,16 +170,19 @@ public class PlayerScript : MonoBehaviour
             " " + (Mathf.Round(rb.linearVelocity.z * 100) / 100).ToString("F2") +
             "\n Active Ability (Num Keys): " + activeAbility;
 
+
         //Moves camera with player, first for normal, second for the backside (backside needs a ton of work with controls being inverted due to camera angle)
         if (transform.position.z <= 2.5f)
         {
             cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2.5f, -7);
             cam.transform.eulerAngles = new Vector3(25, 0, 0);
+            GetComponent<SpriteRenderer>().flipX = false;
         }
         else if (transform.position.z >= 3.5f)
         {
             cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2.5f, 12);
             cam.transform.eulerAngles = new Vector3(25, 180, 0);
+            GetComponent<SpriteRenderer>().flipX = true;
         }
 
         //Tracks time in air. 
@@ -229,6 +229,14 @@ public class PlayerScript : MonoBehaviour
             transform.position = Vector3.up;
         }
 
+    }
+
+    public Vector3 GetInput()
+    {
+        if (transform.position.z >= 3.5f) { invert = -1; }
+        if (transform.position.z <= 2.5f) { invert = 1; }
+
+        return new Vector3(invert*Input.GetAxisRaw("Horizontal"), 0, invert*Input.GetAxisRaw("Vertical"));
     }
 
     void ComboUp(int com)
