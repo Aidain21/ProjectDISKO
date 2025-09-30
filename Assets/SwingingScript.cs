@@ -18,6 +18,7 @@ public class SwingingScript : MonoBehaviour
     public SpringJoint joint;
     void Start()
     {
+        player = GameObject.Find("Player").transform;
     }
 
     private void LateUpdate()

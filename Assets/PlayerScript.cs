@@ -6,7 +6,7 @@ public class PlayerScript : MonoBehaviour
     Rigidbody rb;
     public Camera cam;
     public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce, airTime;
-    public bool canJump = true, boostOnCooldown, onGround, canDash = true, inputsEnabled = true;
+    public bool canJump = true, boostOnCooldown, onGround, canDash = true, inputsEnabled = true, spinning;
     public TMP_Text speedTracker, ballerText, comboText;
     public bool baller, infiniteDash;
     public int combo, invert;
@@ -14,7 +14,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject testBall;
     public IEnumerator dash;
     public bool left;
-    public Sprite[] sprites;
+    public Sprite[] sprites, groundedSprites;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,6 +23,8 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         activeAbility = "JumpToBeat";
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        groundedSprites = new Sprite[] { sprites[0], sprites[1] };
+
     }
 
     // Update is called once per frame
@@ -30,13 +32,19 @@ public class PlayerScript : MonoBehaviour
     {
         //This is what checks if the player is on the ground
         RaycastHit hit;
-        onGround = Physics.Raycast(transform.GetChild(1).position, Vector3.down, out hit, 0.3f);
+        onGround = Physics.Raycast(transform.GetChild(1).position, Vector3.down, out hit, 0.15f);
+        bool reset = onGround;
+        foreach (Sprite sp in groundedSprites)
+        {
+            if (GetComponent<SpriteRenderer>().sprite == sp) { reset = false; break; }
+        }
+        if (reset) { GetComponent<SpriteRenderer>().sprite = sprites[0]; }
 
         //Everything in here is disabled when var is false (useful for cutscenes)
         if (inputsEnabled)
         {
             //Moves player
-            rb.linearVelocity = GetInput() * curSpeed + new Vector3(0, rb.linearVelocity.y + -airTime * 0.07f, 0);
+            rb.linearVelocity = GetInput() * curSpeed + new Vector3(0, Mathf.Max(rb.linearVelocity.y + -airTime * 0.07f, -13f), 0);
 
             //Flips sprite with little animation based on movement
             if (Input.GetKeyDown(KeyCode.A) && !left)
@@ -51,11 +59,11 @@ public class PlayerScript : MonoBehaviour
             }
 
             //Changes between front and back sprites
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) && !spinning)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[1];
             }
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.S) && !spinning)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[0];
             }
@@ -80,7 +88,7 @@ public class PlayerScript : MonoBehaviour
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
                     rb.AddForce(Vector3.up * 7, ForceMode.Impulse);
 
-                    StartCoroutine(Flip(!left, true));
+                    StartCoroutine(Flip(!left, true, true));
 
                 }
                 else
@@ -188,6 +196,22 @@ public class PlayerScript : MonoBehaviour
         //Tracks time in air. 
         airTime = !onGround ? airTime + Time.deltaTime : 0;
 
+        if (rb.linearVelocity.y != 0 && !spinning && !onGround)
+        {
+            GetComponent<SpriteRenderer>().sprite = rb.linearVelocity.y switch
+            {
+                > 4 => sprites[2],
+                > 2 => sprites[3],
+                > 0 => sprites[4],
+                < -10 => sprites[5],
+                < -5 => sprites[6],
+                < 0 => sprites[7],
+                _ => sprites[0]
+            };
+        }
+
+        
+
         //Speed up over time
         if (rb.linearVelocity != Vector3.zero)
         {
@@ -247,11 +271,18 @@ public class PlayerScript : MonoBehaviour
     }
 
     //Flip the character, left for if they are already facing left, full if you just want to spin instead of turn
-    public IEnumerator Flip(bool left, bool full = false)
+    public IEnumerator Flip(bool left, bool full = false, bool harmony = false)
     {
         Vector3 start, end;
         float addTime = 0;
-        if (full) { addTime = 0.1f; }
+        Sprite temp = null;
+        if (harmony) 
+        {
+            temp = GetComponent<SpriteRenderer>().sprite;
+            GetComponent<SpriteRenderer>().sprite = sprites[8];
+            spinning = true;
+        }
+        if (full) { addTime = 0.1f;  }
         if (left)
         {
             start = new Vector3(0,180,0);
@@ -285,6 +316,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         transform.eulerAngles = end;
+        if (harmony) { GetComponent<SpriteRenderer>().sprite = temp; spinning = false; }
 
     }
 

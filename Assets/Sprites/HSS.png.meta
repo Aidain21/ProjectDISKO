@@ -1,0 +1,382 @@
+fileFormatVersion: 2
+guid: 7556b05c057456944bcc734a4a7690e3
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 320
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Harmony Sprite Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 705
+        width: 253
+        height: 363
+      alignment: 9
+      pivot: {x: 0.6640316, y: 0.44903582}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8a47952abe003348924e51051119deb
+      internalID: 1476697195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Harmony Sprite Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 709
+        width: 239
+        height: 356
+      alignment: 9
+      pivot: {x: 0.6820083, y: 0.45786518}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3569563525c481c409c0b9b35e08745d
+      internalID: 138518424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Harmony Sprite Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 775
+        y: 704
+        width: 331
+        height: 377
+      alignment: 9
+      pivot: {x: 0.68277943, y: 0.46153846}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91e43ed194b038f45ad3de5b252d83a8
+      internalID: -315174473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Harmony Sprite Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 700
+        width: 342
+        height: 386
+      alignment: 9
+      pivot: {x: 0.6637427, y: 0.4611399}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8ad62e2151fcf440a9ec6516e4d83b3
+      internalID: 1746010963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Harmony Sprite Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1590
+        y: 689
+        width: 338
+        height: 408
+      alignment: 9
+      pivot: {x: 0.67159766, y: 0.4901961}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd85177b41676ce46ab84158d457b9b7
+      internalID: -1759474728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Harmony Sprite Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 151
+        width: 552
+        height: 384
+      alignment: 9
+      pivot: {x: 0.509058, y: 0.4765625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 394b1805caf0a05429a5830e96d730f7
+      internalID: 1836597440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Harmony Sprite Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 115
+        width: 509
+        height: 541
+      alignment: 9
+      pivot: {x: 0.502947, y: 0.26062846}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81569aa5ee46f2849bff542a9edbdc9f
+      internalID: -1156223918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Harmony Sprite Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 115
+        width: 509
+        height: 541
+      alignment: 9
+      pivot: {x: 0.50098234, y: 0.26062846}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b92241b33a639947ab2436cffc9f3d2
+      internalID: -1683228573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Harmony Sprite Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 1727
+        y: 115
+        width: 509
+        height: 541
+      alignment: 9
+      pivot: {x: 0.502947, y: 0.26062846}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dda3a6c646801749929bbd3a015ef9e
+      internalID: -534577058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: bb88a116ffa2ae3478c64d5dcb7eab14
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":2,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Harmony Sprite Sheet_0: 1476697195
+      Harmony Sprite Sheet_1: 138518424
+      Harmony Sprite Sheet_10: -1824073174
+      Harmony Sprite Sheet_11: -485498884
+      Harmony Sprite Sheet_12: -255948055
+      Harmony Sprite Sheet_13: -1125620814
+      Harmony Sprite Sheet_14: -154666143
+      Harmony Sprite Sheet_15: 2101309072
+      Harmony Sprite Sheet_16: 1987595808
+      Harmony Sprite Sheet_17: -880743744
+      Harmony Sprite Sheet_18: -1574793698
+      Harmony Sprite Sheet_19: 251779414
+      Harmony Sprite Sheet_2: -315174473
+      Harmony Sprite Sheet_20: 1608370110
+      Harmony Sprite Sheet_21: -1703938359
+      Harmony Sprite Sheet_22: -1710583138
+      Harmony Sprite Sheet_23: 309113778
+      Harmony Sprite Sheet_24: 1836597440
+      Harmony Sprite Sheet_25: -907149633
+      Harmony Sprite Sheet_26: -1156223918
+      Harmony Sprite Sheet_27: -1683228573
+      Harmony Sprite Sheet_28: -534577058
+      Harmony Sprite Sheet_29: 1735938176
+      Harmony Sprite Sheet_3: 1746010963
+      Harmony Sprite Sheet_30: 1935632571
+      Harmony Sprite Sheet_31: -410873266
+      Harmony Sprite Sheet_32: -906215721
+      Harmony Sprite Sheet_33: -73221309
+      Harmony Sprite Sheet_34: 1267340296
+      Harmony Sprite Sheet_35: 1365766306
+      Harmony Sprite Sheet_36: -866977058
+      Harmony Sprite Sheet_37: 305226394
+      Harmony Sprite Sheet_38: -710360311
+      Harmony Sprite Sheet_39: 1770246266
+      Harmony Sprite Sheet_4: -733091959
+      Harmony Sprite Sheet_40: 1338732458
+      Harmony Sprite Sheet_41: -280135348
+      Harmony Sprite Sheet_42: -1613081190
+      Harmony Sprite Sheet_43: -1279480021
+      Harmony Sprite Sheet_44: -1227561563
+      Harmony Sprite Sheet_45: 1708337272
+      Harmony Sprite Sheet_46: 525526896
+      Harmony Sprite Sheet_47: 1458854479
+      Harmony Sprite Sheet_48: -1076304168
+      Harmony Sprite Sheet_49: -1384124393
+      Harmony Sprite Sheet_5: -1759474728
+      Harmony Sprite Sheet_50: -554269028
+      Harmony Sprite Sheet_51: 1086074414
+      Harmony Sprite Sheet_6: -1897627943
+      Harmony Sprite Sheet_7: -1729475139
+      Harmony Sprite Sheet_8: 13690002
+      Harmony Sprite Sheet_9: 940324560
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
