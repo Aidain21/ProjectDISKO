@@ -10,6 +10,7 @@ public class MusicScript : MonoBehaviour
     public bool onTempo;
     public int bpm;
     public float timer;
+    public int totalBeats;
     public RectTransform left, middle, right;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,7 +29,13 @@ public class MusicScript : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= 60f / bpm - 0.02f)
             {
+                totalBeats++;
                 StartCoroutine(OnBeat());
+                MovingBlockScript[] blocks = FindObjectsByType<MovingBlockScript>(FindObjectsSortMode.None);
+                foreach (MovingBlockScript block in blocks)
+                {
+                    block.BeatBlock(totalBeats);
+                }
                 timer = 0;
             }
         }
