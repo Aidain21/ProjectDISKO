@@ -7,13 +7,14 @@ public class PlayerScript : MonoBehaviour
     public Camera cam;
     public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce, airTime;
     public bool canJump = true, boostOnCooldown, onGround, canDash = true, inputsEnabled = true, spinning;
-    public TMP_Text speedTracker, ballerText, comboText;
+    public TMP_Text speedTracker, ballerText, comboText, healthText;
     public bool baller, infiniteDash;
     public int combo, invert;
     public string activeAbility;
     public GameObject testBall;
     public IEnumerator dash;
     public bool left;
+    public int playerHealth = 3;
     public Sprite[] sprites, groundedSprites;
 
 
@@ -252,7 +253,10 @@ public class PlayerScript : MonoBehaviour
         {
             transform.position = Vector3.up;
         }
-
+        healthText.text = "Health: " + playerHealth;
+        if (playerHealth <= 0) { 
+            Destroy(gameObject);
+        }
     }
 
     public Vector3 GetInput()
@@ -354,4 +358,20 @@ public class PlayerScript : MonoBehaviour
     }
 
     //No dashing into walls please i beg  you
+    /*
+     public void OnCollisionEnter(Collision collision)
+     {
+         if (collision.gameObject.CompareTag("Spike")){
+             playerHealth--;
+         }
+     }
+    */
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Spike")) {
+            playerHealth--;
+        }
+    }
+
 }
