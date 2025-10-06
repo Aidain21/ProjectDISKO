@@ -45,25 +45,25 @@ public class PlayerScript : MonoBehaviour
         {
             //Moves player
             rb.linearVelocity = GetInput() * curSpeed + new Vector3(0, Mathf.Max(rb.linearVelocity.y + -airTime * 0.07f, -13f), 0);
-
+            Vector3 Direction = GetInput();
             //Flips sprite with little animation based on movement
-            if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && !left)
+            if (Direction.x == -1 && !left)
             {
                 StartCoroutine(Flip(left));
                 left = !left;
             }
-            if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && left)
+            if (Direction.x == 1 && left)
             {
                 StartCoroutine(Flip(left));
                 left = !left;
             }
 
             //Changes between front and back sprites
-            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !spinning)
+            if (Direction.z == 1 && !spinning)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[1];
             }
-            if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !spinning)
+            if (Direction.z == -1 && !spinning)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[0];
             }
