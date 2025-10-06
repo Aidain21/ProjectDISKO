@@ -47,23 +47,23 @@ public class PlayerScript : MonoBehaviour
             rb.linearVelocity = GetInput() * curSpeed + new Vector3(0, Mathf.Max(rb.linearVelocity.y + -airTime * 0.07f, -13f), 0);
 
             //Flips sprite with little animation based on movement
-            if (Input.GetKeyDown(KeyCode.A) && !left)
+            if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && !left)
             {
                 StartCoroutine(Flip(left));
                 left = !left;
             }
-            if (Input.GetKeyDown(KeyCode.D) && left)
+            if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && left)
             {
                 StartCoroutine(Flip(left));
                 left = !left;
             }
 
             //Changes between front and back sprites
-            if (Input.GetKeyDown(KeyCode.W) && !spinning)
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !spinning)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[1];
             }
-            if (Input.GetKeyDown(KeyCode.S) && !spinning)
+            if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !spinning)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[0];
             }
