@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 public class PlayerScript : MonoBehaviour
@@ -7,15 +8,15 @@ public class PlayerScript : MonoBehaviour
     public Camera cam;
     public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce, airTime;
     public bool canJump = true, boostOnCooldown, onGround, canDash = true, inputsEnabled = true, spinning;
-    public TMP_Text speedTracker, ballerText, comboText, healthText;
-    public bool baller, infiniteDash;
+    public TMP_Text speedTracker, comboText, healthText;
+    public bool infiniteDash, left;
     public int combo, invert;
     public string activeAbility;
     public GameObject testBall;
     public IEnumerator dash;
-    public bool left;
     public int playerHealth = 3;
-    public Sprite[] sprites, groundedSprites;
+    public Sprite[] sprites, groundedSprites, healthBarSprites;
+    public GameObject healthBar;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,8 +33,7 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         //This is what checks if the player is on the ground
-        RaycastHit hit;
-        onGround = Physics.Raycast(transform.GetChild(1).position, Vector3.down, out hit, 0.15f);
+        onGround = Physics.Raycast(transform.GetChild(1).position, Vector3.down, out _, 0.15f);
         bool reset = onGround;
         foreach (Sprite sp in groundedSprites)
         {
@@ -122,8 +122,8 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && activeAbility == "DashOnBeat"
                 && (transform.GetChild(0).GetComponent<MusicScript>().onTempo || infiniteDash) && canDash)
             {
-                if (!Physics.Raycast(transform.position, new Vector3(GetInput().x, 0, 0), out hit, 0.3f) &&
-                    !Physics.Raycast(transform.position, new Vector3(0, 0, GetInput().z), out hit, 0.3f))
+                if (!Physics.Raycast(transform.position, new Vector3(GetInput().x, 0, 0), out _, 0.3f) &&
+                    !Physics.Raycast(transform.position, new Vector3(0, 0, GetInput().z), out _, 0.3f))
                 {
                     dash = Dash(GetInput());
                     StartCoroutine(dash);
@@ -151,23 +151,6 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha3)) { activeAbility = "DashOnBeat"; }
             if (Input.GetKeyDown(KeyCode.Alpha4)) { activeAbility = "BomberBunny"; }
 
-            //B A L L E R
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                if (baller)
-                {
-                    rb.freezeRotation = true;
-                    transform.rotation = Quaternion.identity;
-                    baller = false;
-                    ballerText.text = "Press B to become B A L L \nBall Status: Inactive";
-                }
-                else
-                {
-                    rb.freezeRotation = false;
-                    baller = true;
-                    ballerText.text = "Press B to become B A L L \nBall Status: It's Roll Time";
-                }
-            }
 
             if (Input.GetKeyDown(KeyCode.P)) { transform.GetChild(0).GetComponent<MusicScript>().NextTrack(); }
 
@@ -253,10 +236,7 @@ public class PlayerScript : MonoBehaviour
         {
             transform.position = Vector3.up;
         }
-        healthText.text = "Health: " + playerHealth;
-        if (playerHealth <= 0) { 
-            Destroy(gameObject);
-        }
+        
     }
 
     public Vector3 GetInput()
@@ -272,6 +252,34 @@ public class PlayerScript : MonoBehaviour
         combo = com + 1;
         string wow = new('!', combo);
         comboText.text = "Combo: " + combo + wow;
+    }
+
+    public void AddHealth(int hp, bool set = false)
+    {
+        //This line is saying health equals the hp value if set is true, otherwise add hp to health.
+        playerHealth = set ? hp : playerHealth + hp;
+        healthText.text = "Health: " + playerHealth;
+
+        //This is a shorthand to saying 3 different if statements for hp
+        switch (playerHealth)
+        {
+            case 3:
+                healthBar.GetComponent<Image>().sprite = healthBarSprites[2];
+                healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(390, 150);
+                break;
+            case 2:
+                healthBar.GetComponent<Image>().sprite = healthBarSprites[1];
+                healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(420 * 0.75f, 150);
+                break;
+            case 1:
+                healthBar.GetComponent<Image>().sprite = healthBarSprites[0];
+                healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(320 * 0.75f, 150);
+                break;
+            case int n when (n <= 0):
+                Destroy(gameObject);
+                break;
+        }
+
     }
 
     //Flip the character, left for if they are already facing left, full if you just want to spin instead of turn
@@ -341,10 +349,7 @@ public class PlayerScript : MonoBehaviour
             rb.MovePosition(new Vector3(data.x, transform.position.y, data.z));
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
-
-
-            RaycastHit hit;
-            bool noDash = Physics.Raycast(transform.position, dir, out hit, 0.3f);
+            bool noDash = Physics.Raycast(transform.position, dir, out _, 0.3f);
             if (noDash)
             {
                 elapsedTime = 100;
@@ -370,7 +375,7 @@ public class PlayerScript : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Spike")) {
-            playerHealth--;
+            AddHealth(-1);
         }
     }
 
