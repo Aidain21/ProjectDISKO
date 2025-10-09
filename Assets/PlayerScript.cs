@@ -125,7 +125,8 @@ public class PlayerScript : MonoBehaviour
 
             }
             
-            if (Input.GetKeyDown(KeyCode.Return) && abilitynames[abilNum] == "MusicComboTest")
+            //Press enter to test combo
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 if (transform.GetChild(0).GetComponent<MusicScript>().onTempo && !boostOnCooldown)
                 {
@@ -171,6 +172,7 @@ public class PlayerScript : MonoBehaviour
 
             }
 
+            //Throws bombs if player is moving in the direction they are moving
             if (Input.GetKeyDown(KeyCode.E) && abilitynames[abilNum] == "BomberBunny" && cooldowns[3] == 0)
             {
                 Vector3 spawn = transform.position + GetInput();
@@ -190,7 +192,7 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha3)) { abilNum = 2; }
             if (Input.GetKeyDown(KeyCode.Alpha4)) { abilNum = 3; }
 
-
+            //Change the music
             if (Input.GetKeyDown(KeyCode.P)) { transform.GetChild(0).GetComponent<MusicScript>().NextTrack(); }
 
         }
@@ -220,6 +222,7 @@ public class PlayerScript : MonoBehaviour
         //Tracks time in air. 
         airTime = !onGround ? airTime + Time.deltaTime : 0;
 
+        //changes harmony sprite based on their velocity (jumping/falling)
         if (rb.linearVelocity.y != 0 && !spinning && !onGround)
         {
             GetComponent<SpriteRenderer>().sprite = rb.linearVelocity.y switch
