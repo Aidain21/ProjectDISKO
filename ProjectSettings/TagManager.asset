@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Wall
   - Bombable
+  - Spike
   layers:
   - Default
   - TransparentFX
