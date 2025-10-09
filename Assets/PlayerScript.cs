@@ -96,7 +96,8 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 //default off ground jump
-                if (onGround)
+                //airTime adds coyote time effect (adds some forgiveness for the jump)
+                if (onGround || airTime <= .12f)
                 {
                     rb.AddForce(Vector3.up * 7, ForceMode.Impulse);
                 }
