@@ -29,7 +29,7 @@ public class SwingingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.transform.gameObject.GetComponent<PlayerScript>().activeAbility == "Swing")
+        if (player.transform.gameObject.GetComponent<PlayerScript>().abilitynames[player.transform.gameObject.GetComponent<PlayerScript>().abilNum] == "Swing")
         {
             if (Input.GetKeyDown(KeyCode.E))
             {

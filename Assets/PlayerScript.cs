@@ -7,23 +7,30 @@ public class PlayerScript : MonoBehaviour
     Rigidbody rb;
     public Camera cam;
     public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce, airTime;
-    public bool canJump = true, boostOnCooldown, onGround, canDash = true, inputsEnabled = true, spinning;
-    public TMP_Text speedTracker, comboText, healthText;
-    public bool infiniteDash, left;
-    public int combo, invert;
-    public string activeAbility;
-    public GameObject testBall;
-    public IEnumerator dash;
-    public int playerHealth = 3;
+    public bool canJump = true, onGround,inputsEnabled = true, spinning , left;
+    public TMP_Text abilityTracker, comboText, speedText;
+    public int invert, playerHealth = 3;
     public Sprite[] sprites, groundedSprites, healthBarSprites;
     public GameObject healthBar;
 
+    [Header("Ability Variables")]
+    //add to this list as more are made
+    public int abilNum;
+    public IEnumerator dash;
+    public bool boostOnCooldown, canDash = true, infiniteDash;
+    public int combo;
+    public GameObject testBall;
+    [Tooltip("When in lists the abilites go in this order: spinjump, swing, dash, bomb")]
+    public string[] abilitynames = {"JumpToBeat", "Swing", "DashOnBeat", "BomberBunny" };
+    public float[] cooldownTimes;
+    public float[] cooldowns;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        activeAbility = "JumpToBeat";
+        abilNum = 0;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         groundedSprites = new Sprite[] { sprites[0], sprites[1] };
 
@@ -40,6 +47,20 @@ public class PlayerScript : MonoBehaviour
             if (GetComponent<SpriteRenderer>().sprite == sp) { reset = false; break; }
         }
         if (reset) { GetComponent<SpriteRenderer>().sprite = sprites[0]; }
+
+        for (int i = 0; i < cooldowns.Length; i++)
+        {
+            if (cooldowns[i] > 0)
+            {
+                cooldowns[i] -= Time.deltaTime;
+            }
+            else if (cooldowns[i] < 0)
+            {
+                cooldowns[i] = 0;
+            }
+        }
+
+
 
         //Everything in here is disabled when var is false (useful for cutscenes)
         if (inputsEnabled)
@@ -72,7 +93,7 @@ public class PlayerScript : MonoBehaviour
 
 
             //jump
-            if (Input.GetKeyDown(KeyCode.Space) && activeAbility != "MusicComboTest")
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 //default off ground jump
                 if (onGround)
@@ -81,24 +102,29 @@ public class PlayerScript : MonoBehaviour
                 }
 
                 //mid air twirl like mario when the right ability is active and on tempo, tracks the combo too.
-                if (transform.GetChild(0).GetComponent<MusicScript>().onTempo && !boostOnCooldown && activeAbility == "JumpToBeat" && !onGround)
+                if (abilitynames[abilNum] == "JumpToBeat" && !onGround && cooldowns[0] == 0)
                 {
-                    ComboUp(combo);
-                    boostOnCooldown = true;
                     airTime = 0f;
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-                    rb.AddForce(Vector3.up * 7, ForceMode.Impulse);
-
+                    if (transform.GetChild(0).GetComponent<MusicScript>().onTempo && !boostOnCooldown)
+                    {
+                        rb.AddForce(Vector3.up * 10, ForceMode.Impulse);
+                        ComboUp(combo);
+                        boostOnCooldown = true;
+                    }
+                    else
+                    {
+                        rb.AddForce(Vector3.up * 7, ForceMode.Impulse);
+                        ComboUp(-1);
+                    }
+                    cooldowns[0] = cooldownTimes[0];
                     StartCoroutine(Flip(!left, true, true));
-
                 }
-                else
-                {
-                    ComboUp(-1);
-                }
+                
 
             }
-            else if (Input.GetKeyDown(KeyCode.Space) && activeAbility == "MusicComboTest")
+            
+            if (Input.GetKeyDown(KeyCode.Return) && abilitynames[abilNum] == "MusicComboTest")
             {
                 if (transform.GetChild(0).GetComponent<MusicScript>().onTempo && !boostOnCooldown)
                 {
@@ -119,25 +145,38 @@ public class PlayerScript : MonoBehaviour
 
 
             //Initiates dash if everything here is good.
-            if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && activeAbility == "DashOnBeat"
-                && (transform.GetChild(0).GetComponent<MusicScript>().onTempo || infiniteDash) && canDash)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && abilitynames[abilNum] == "DashOnBeat"
+                && (cooldowns[2] == 0 || infiniteDash) && canDash)
             {
                 if (!Physics.Raycast(transform.position, new Vector3(GetInput().x, 0, 0), out _, 0.3f) &&
                     !Physics.Raycast(transform.position, new Vector3(0, 0, GetInput().z), out _, 0.3f))
                 {
-                    dash = Dash(GetInput());
-                    StartCoroutine(dash);
+                    if (transform.GetChild(0).GetComponent<MusicScript>().onTempo)
+                    {
+                        dash = Dash(GetInput(), 3.5f);
+                        StartCoroutine(dash);
+                        ComboUp(combo);
+                        boostOnCooldown = true;
+                    }
+                    else
+                    {
+                        dash = Dash(GetInput());
+                        StartCoroutine(dash);
+                        ComboUp(-1);
+                    }
+                    
                 }
                
 
             }
 
-            if (Input.GetKeyDown(KeyCode.E) && activeAbility == "BomberBunny")
+            if (Input.GetKeyDown(KeyCode.E) && abilitynames[abilNum] == "BomberBunny" && cooldowns[3] == 0)
             {
                 Vector3 spawn = transform.position + GetInput();
                 if (spawn != transform.position)
                 {
                     Instantiate(testBall, spawn, Quaternion.identity);
+                    cooldowns[3] = cooldownTimes[3];
 
                 }
                 
@@ -145,11 +184,10 @@ public class PlayerScript : MonoBehaviour
             }
 
             //Change between abilities (temporary possibly)
-            if (Input.GetKeyDown(KeyCode.BackQuote)) { activeAbility = "MusicComboTest"; }
-            if (Input.GetKeyDown(KeyCode.Alpha1)) { activeAbility = "JumpToBeat"; }
-            if (Input.GetKeyDown(KeyCode.Alpha2)) { activeAbility = "Swing"; }
-            if (Input.GetKeyDown(KeyCode.Alpha3)) { activeAbility = "DashOnBeat"; }
-            if (Input.GetKeyDown(KeyCode.Alpha4)) { activeAbility = "BomberBunny"; }
+            if (Input.GetKeyDown(KeyCode.Alpha1)) { abilNum = 0; }
+            if (Input.GetKeyDown(KeyCode.Alpha2)) { abilNum = 1; }
+            if (Input.GetKeyDown(KeyCode.Alpha3)) { abilNum = 2; }
+            if (Input.GetKeyDown(KeyCode.Alpha4)) { abilNum = 3; }
 
 
             if (Input.GetKeyDown(KeyCode.P)) { transform.GetChild(0).GetComponent<MusicScript>().NextTrack(); }
@@ -157,10 +195,11 @@ public class PlayerScript : MonoBehaviour
         }
 
         //Text that tracks the velocity of the player, and the active ability
-        speedTracker.text = (Mathf.Round(rb.linearVelocity.x * 100) / 100).ToString("F2") +
+        abilityTracker.text = "Active Ability (Num Keys): " + abilitynames[abilNum] 
+            + "\n Cooldown: " + (Mathf.Round(cooldowns[abilNum] * 100) / 100).ToString("F2");
+        speedText.text = (Mathf.Round(rb.linearVelocity.x * 100) / 100).ToString("F2") +
             " " + (Mathf.Round(rb.linearVelocity.y * 100) / 100).ToString("F2") +
-            " " + (Mathf.Round(rb.linearVelocity.z * 100) / 100).ToString("F2") +
-            "\n Active Ability (Num Keys): " + activeAbility;
+            " " + (Mathf.Round(rb.linearVelocity.z * 100) / 100).ToString("F2");
 
 
         //Moves camera with player, first for normal, second for the backside (backside needs a ton of work with controls being inverted due to camera angle)
@@ -258,7 +297,6 @@ public class PlayerScript : MonoBehaviour
     {
         //This line is saying health equals the hp value if set is true, otherwise add hp to health.
         playerHealth = set ? hp : playerHealth + hp;
-        healthText.text = "Health: " + playerHealth;
 
         //This is a shorthand to saying 3 different if statements for hp
         switch (playerHealth)
@@ -333,7 +371,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     //The dastardly dash, choose a direction to dash in, will change in future to make more customizable
-    public IEnumerator Dash(Vector3 dir)
+    public IEnumerator Dash(Vector3 dir, float distance = 3f)
     {
         GetComponent<SpriteRenderer>().color = Color.cyan;
         inputsEnabled = false;
@@ -341,7 +379,7 @@ public class PlayerScript : MonoBehaviour
         rb.useGravity = false;
         rb.linearVelocity = Vector3.zero;
         Vector3 start = transform.position;
-        Vector3 end = transform.position + dir * 3f;
+        Vector3 end = transform.position + dir * distance;
         float elapsedTime = 0;
         while (elapsedTime < 0.15f)
         {
@@ -358,6 +396,7 @@ public class PlayerScript : MonoBehaviour
         rb.useGravity = true;
         canDash = true;
         inputsEnabled = true;
+        cooldowns[2] = cooldownTimes[2];
         GetComponent<SpriteRenderer>().color = Color.white;
 
     }
