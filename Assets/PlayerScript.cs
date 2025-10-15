@@ -24,15 +24,21 @@ public class PlayerScript : MonoBehaviour
     public string[] abilitynames = {"JumpToBeat", "Swing", "DashOnBeat", "BomberBunny" };
     public float[] cooldownTimes;
     public float[] cooldowns;
+
+
+    //basic animation storage
+    public IEnumerator latestAnim;
+    public IEnumerator breakableAnim;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        breakableAnim = null;
         rb = GetComponent<Rigidbody>();
         abilNum = 0;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        groundedSprites = new Sprite[] { sprites[0], sprites[1] };
+        groundedSprites = new Sprite[] { sprites[0], sprites[1], sprites[11], sprites[12], sprites[13] };
 
     }
 
@@ -40,7 +46,7 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         //This is what checks if the player is on the ground
-        onGround = Physics.Raycast(transform.GetChild(1).position, Vector3.down, out _, 0.15f);
+        onGround = Physics.Raycast(transform.GetChild(1).position, Vector3.down, out _, 0.2f);
         bool reset = onGround;
         foreach (Sprite sp in groundedSprites)
         {
@@ -63,34 +69,40 @@ public class PlayerScript : MonoBehaviour
 
 
         //Everything in here is disabled when var is false (useful for cutscenes)
-        if (inputsEnabled)
+        if (inputsEnabled && (latestAnim == null || (latestAnim == breakableAnim)))
         {
             //Moves player
-            rb.linearVelocity = GetInput() * curSpeed + new Vector3(0, Mathf.Max(rb.linearVelocity.y + -airTime * 0.07f, -13f), 0);
+            rb.linearVelocity = GetInput() * curSpeed + new Vector3(0, Mathf.Max(rb.linearVelocity.y + -airTime * 0.05f, -13f), 0);
             Vector3 Direction = GetInput();
             //Flips sprite with little animation based on movement
-            if (Direction.x == -1 && !left)
+            if (Direction.x == -1 * invert && !left)
             {
                 StartCoroutine(Flip(left));
                 left = !left;
             }
-            if (Direction.x == 1 && left)
+            if (Direction.x == 1 * invert && left)
             {
                 StartCoroutine(Flip(left));
                 left = !left;
             }
 
             //Changes between front and back sprites
-            if (Direction.z == 1 && !spinning)
+            if (Direction.z == 1 * invert && !spinning)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[1];
             }
-            if (Direction.z == -1 && !spinning)
+            if (Direction.z == -1 * invert && !spinning)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[0];
             }
 
-
+            if (rb.linearVelocity != Vector3.zero && breakableAnim != null)
+            {
+                StopCoroutine(breakableAnim);
+                latestAnim = null;
+                breakableAnim = null;
+                GetComponent<SpriteRenderer>().sprite = sprites[0];
+            }
 
             //jump
             if (Input.GetKeyDown(KeyCode.Space))
@@ -194,6 +206,14 @@ public class PlayerScript : MonoBehaviour
 
             //Change the music
             if (Input.GetKeyDown(KeyCode.P)) { transform.GetChild(0).GetComponent<MusicScript>().NextTrack(); }
+            
+
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                rb.linearVelocity = Vector3.zero;
+                latestAnim = BasicAnim(new Sprite[] { sprites[11], sprites[12], sprites[13] }, 0.5f, true, -3 );
+                StartCoroutine(latestAnim);
+            }
 
         }
 
@@ -208,14 +228,14 @@ public class PlayerScript : MonoBehaviour
         //Moves camera with player, first for normal, second for the backside (backside needs a ton of work with controls being inverted due to camera angle)
         if (transform.position.z <= 2.5f)
         {
-            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2.5f, -7);
-            cam.transform.eulerAngles = new Vector3(25, 0, 0);
+            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, -7);
+            cam.transform.eulerAngles = new Vector3(30, 0, 0);
             GetComponent<SpriteRenderer>().flipX = false;
         }
         else if (transform.position.z >= 3.5f)
         {
-            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2.5f, 12);
-            cam.transform.eulerAngles = new Vector3(25, 180, 0);
+            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, 12);
+            cam.transform.eulerAngles = new Vector3(30, 180, 0);
             GetComponent<SpriteRenderer>().flipX = true;
         }
 
@@ -225,16 +245,25 @@ public class PlayerScript : MonoBehaviour
         //changes harmony sprite based on their velocity (jumping/falling)
         if (rb.linearVelocity.y != 0 && !spinning && !onGround)
         {
-            GetComponent<SpriteRenderer>().sprite = rb.linearVelocity.y switch
+            if (rb.linearVelocity.y < -10f && latestAnim == null)
             {
-                > 4 => sprites[2],
-                > 2 => sprites[3],
-                > 0 => sprites[4],
-                < -10 => sprites[5],
-                < -5 => sprites[6],
-                < 0 => sprites[7],
-                _ => sprites[0]
-            };
+                latestAnim = BasicAnim(new Sprite[] { sprites[5], sprites[6], sprites[7] }, 0.06f, true, -1, true);
+                StartCoroutine(latestAnim);
+            }
+            else if (latestAnim == null)
+            {
+                GetComponent<SpriteRenderer>().sprite = rb.linearVelocity.y switch
+                {
+                    > 4 => sprites[2],
+                    > 2 => sprites[3],
+                    > 0 => sprites[4],
+                    < -5 => sprites[10],
+                    < 0 => sprites[9],
+                    _ => sprites[0]
+                };
+
+            }
+            
         }
 
         
@@ -404,6 +433,33 @@ public class PlayerScript : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.white;
 
     }
+
+    public IEnumerator BasicAnim(Sprite[] frames, float timeBetween, bool backAndForth = false, int cycles = -1, bool stopOnGrounded = false)
+    {
+        IEnumerator self = latestAnim;
+        int curFrame = 0;
+        int curCycle = 0;
+        int step = 1;
+        while (curCycle < cycles || cycles < 0)
+        {
+            GetComponent<SpriteRenderer>().sprite = frames[curFrame];
+            curFrame += step;
+            yield return new WaitForSeconds(timeBetween);
+
+            if (curFrame == frames.Length)
+            {
+                if (backAndForth) { step = -1; curFrame -= 2; }
+                else { curFrame = 0; }
+                curCycle++;
+            }
+            if (curFrame == -1) { step = 1; curFrame += 2; curCycle++; }
+            if (Mathf.Abs(cycles) == curCycle) { breakableAnim = self; }
+            if (stopOnGrounded && onGround) { break; }
+        }
+        latestAnim = null;
+
+    }
+
 
     //No dashing into walls please i beg  you
     /*

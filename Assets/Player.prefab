@@ -661,6 +661,12 @@ MonoBehaviour:
   - {fileID: -1683228573, guid: 7556b05c057456944bcc734a4a7690e3, type: 3}
   - {fileID: -534577058, guid: 7556b05c057456944bcc734a4a7690e3, type: 3}
   - {fileID: 1836597440, guid: 7556b05c057456944bcc734a4a7690e3, type: 3}
+  - {fileID: -1873438321, guid: f5c03827314bd684888d109db0f50f5d, type: 3}
+  - {fileID: -595902100, guid: f5c03827314bd684888d109db0f50f5d, type: 3}
+  - {fileID: 762814505, guid: f5c03827314bd684888d109db0f50f5d, type: 3}
+  - {fileID: 889256777, guid: f5c03827314bd684888d109db0f50f5d, type: 3}
+  - {fileID: -900078854, guid: f5c03827314bd684888d109db0f50f5d, type: 3}
+  - {fileID: -169498126, guid: f5c03827314bd684888d109db0f50f5d, type: 3}
   groundedSprites: []
   healthBarSprites:
   - {fileID: 1820768587, guid: 53b97d57f269a644b8dea2105a11b1bc, type: 3}

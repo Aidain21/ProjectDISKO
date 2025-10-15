@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3439629517812879187}
   - component: {fileID: 7174751621024505415}
   - component: {fileID: 3821250800202046335}
-  - component: {fileID: 3670446217726053276}
   - component: {fileID: 6145911589761740914}
+  - component: {fileID: -6324028917140117619}
   m_Layer: 0
   m_Name: SlingPoint
   m_TagString: Untagged
@@ -113,26 +113,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3670446217726053276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2078519890590356100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e46b3e0f1987f347995f80aa0cd547d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwingingScript
-  line: {fileID: 6145911589761740914}
-  player: {fileID: 0}
-  canSwingFrom:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  maxSwing: 5
-  swingPoint: {x: 0, y: 0, z: 0}
-  joint: {fileID: 0}
 --- !u!120 &6145911589761740914
 LineRenderer:
   serializedVersion: 2
@@ -243,3 +223,23 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &-6324028917140117619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078519890590356100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e46b3e0f1987f347995f80aa0cd547d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NinjaRope
+  line: {fileID: 6145911589761740914}
+  player: {fileID: 0}
+  canSwingFrom:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  maxSwing: 10
+  swingPoint: {x: 0, y: 0, z: 0}
+  joint: {fileID: 0}

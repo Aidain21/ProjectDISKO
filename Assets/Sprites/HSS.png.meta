@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Harmony Sprite Sheet_0
+      name: idle
       rect:
         serializedVersion: 2
         x: 93
@@ -132,7 +132,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Harmony Sprite Sheet_1
+      name: backidle
       rect:
         serializedVersion: 2
         x: 447
@@ -154,7 +154,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Harmony Sprite Sheet_2
+      name: jump1
       rect:
         serializedVersion: 2
         x: 775
@@ -176,7 +176,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Harmony Sprite Sheet_3
+      name: jump2
       rect:
         serializedVersion: 2
         x: 1167
@@ -198,7 +198,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Harmony Sprite Sheet_5
+      name: jump3
       rect:
         serializedVersion: 2
         x: 1590
@@ -220,7 +220,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Harmony Sprite Sheet_24
+      name: spin
       rect:
         serializedVersion: 2
         x: 25
@@ -242,7 +242,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Harmony Sprite Sheet_26
+      name: bigfall1
       rect:
         serializedVersion: 2
         x: 604
@@ -264,7 +264,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Harmony Sprite Sheet_27
+      name: bigfall2
       rect:
         serializedVersion: 2
         x: 1172
@@ -286,7 +286,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Harmony Sprite Sheet_28
+      name: bigfall3
       rect:
         serializedVersion: 2
         x: 1727
@@ -323,8 +323,6 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":2,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Harmony Sprite Sheet_0: 1476697195
-      Harmony Sprite Sheet_1: 138518424
       Harmony Sprite Sheet_10: -1824073174
       Harmony Sprite Sheet_11: -485498884
       Harmony Sprite Sheet_12: -255948055
@@ -335,18 +333,12 @@ TextureImporter:
       Harmony Sprite Sheet_17: -880743744
       Harmony Sprite Sheet_18: -1574793698
       Harmony Sprite Sheet_19: 251779414
-      Harmony Sprite Sheet_2: -315174473
       Harmony Sprite Sheet_20: 1608370110
       Harmony Sprite Sheet_21: -1703938359
       Harmony Sprite Sheet_22: -1710583138
       Harmony Sprite Sheet_23: 309113778
-      Harmony Sprite Sheet_24: 1836597440
       Harmony Sprite Sheet_25: -907149633
-      Harmony Sprite Sheet_26: -1156223918
-      Harmony Sprite Sheet_27: -1683228573
-      Harmony Sprite Sheet_28: -534577058
       Harmony Sprite Sheet_29: 1735938176
-      Harmony Sprite Sheet_3: 1746010963
       Harmony Sprite Sheet_30: 1935632571
       Harmony Sprite Sheet_31: -410873266
       Harmony Sprite Sheet_32: -906215721
@@ -368,13 +360,21 @@ TextureImporter:
       Harmony Sprite Sheet_47: 1458854479
       Harmony Sprite Sheet_48: -1076304168
       Harmony Sprite Sheet_49: -1384124393
-      Harmony Sprite Sheet_5: -1759474728
       Harmony Sprite Sheet_50: -554269028
       Harmony Sprite Sheet_51: 1086074414
       Harmony Sprite Sheet_6: -1897627943
       Harmony Sprite Sheet_7: -1729475139
       Harmony Sprite Sheet_8: 13690002
       Harmony Sprite Sheet_9: 940324560
+      backidle: 138518424
+      bigfall1: -1156223918
+      bigfall2: -1683228573
+      bigfall3: -534577058
+      idle: 1476697195
+      jump1: -315174473
+      jump2: 1746010963
+      jump3: -1759474728
+      spin: 1836597440
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

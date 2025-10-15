@@ -108,12 +108,144 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: fall1
+      rect:
+        serializedVersion: 2
+        x: 2040
+        y: 1295
+        width: 385
+        height: 413
+      alignment: 9
+      pivot: {x: 0.7090909, y: 0.48668283}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ee2bdd9614e1d5468e5f5a02e716071
+      internalID: -1873438321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fall2
+      rect:
+        serializedVersion: 2
+        x: 2553
+        y: 1295
+        width: 428
+        height: 403
+      alignment: 9
+      pivot: {x: 0.7359813, y: 0.46650124}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b8afbd2e2d980646bc149709cdd3028
+      internalID: -595902100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dizzy1
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 183
+        width: 342
+        height: 402
+      alignment: 9
+      pivot: {x: 0.57309943, y: 0.36567163}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 518016eabd22f684aa1d6586162859c6
+      internalID: 762814505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dizzy2
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 186
+        width: 346
+        height: 397
+      alignment: 9
+      pivot: {x: 0.50578034, y: 0.35012594}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6872781f23358f4f8f565247eef73cd
+      internalID: 889256777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dizzy3
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 182
+        width: 343
+        height: 406
+      alignment: 9
+      pivot: {x: 0.44023326, y: 0.34975368}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d65ec4aa85d16841a48c955621e342c
+      internalID: -900078854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swing
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 78
+        width: 292
+        height: 596
+      alignment: 9
+      pivot: {x: 0.510274, y: 0.21140939}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 148d2a6cd7f4c2a419405dd9f94180e8
+      internalID: -169498126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 0ab754eca0e97d349ba082662db9ea5d
     internalID: 0
     vertices: []
     indices: 
@@ -121,8 +253,83 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      HSS2_0: -941799364
+      HSS2_1: 1846858004
+      HSS2_11: -830447252
+      HSS2_12: -528453790
+      HSS2_13: -1648485111
+      HSS2_14: -435680257
+      HSS2_15: 342879080
+      HSS2_16: -1447884413
+      HSS2_17: 323423108
+      HSS2_18: 1102828006
+      HSS2_19: -814001169
+      HSS2_2: -1248246588
+      HSS2_20: -1160232052
+      HSS2_21: 103470551
+      HSS2_22: -780978378
+      HSS2_23: -1316095684
+      HSS2_24: -1471895409
+      HSS2_25: 1500159058
+      HSS2_26: 1614248406
+      HSS2_27: 1652995675
+      HSS2_28: 1353244340
+      HSS2_29: -330143584
+      HSS2_3: 1273289597
+      HSS2_30: -1920440311
+      HSS2_31: -406910933
+      HSS2_32: -1208090371
+      HSS2_33: 1201821020
+      HSS2_34: 1879457066
+      HSS2_35: 2013148685
+      HSS2_36: -486167046
+      HSS2_37: 294496861
+      HSS2_38: -307069638
+      HSS2_39: -731078128
+      HSS2_4: 1887789930
+      HSS2_40: 1243064201
+      HSS2_41: 174282049
+      HSS2_42: 1608323933
+      HSS2_43: 1124625608
+      HSS2_44: -2133339124
+      HSS2_45: 731623075
+      HSS2_46: 1462033249
+      HSS2_47: -1441895378
+      HSS2_48: -155533678
+      HSS2_49: 920507088
+      HSS2_5: 590208950
+      HSS2_50: -1105945060
+      HSS2_51: -493067595
+      HSS2_52: -1836256373
+      HSS2_53: -1737437487
+      HSS2_54: 2069800902
+      HSS2_55: 520009632
+      HSS2_56: 1017116572
+      HSS2_57: 925063885
+      HSS2_58: -1676808545
+      HSS2_59: -1737744934
+      HSS2_6: -1298229971
+      HSS2_60: 1002572535
+      HSS2_61: -504007924
+      HSS2_62: -1392356769
+      HSS2_63: 1957315123
+      HSS2_64: -38751377
+      HSS2_66: 1565657003
+      HSS2_68: -1458633482
+      HSS2_71: -152580703
+      HSS2_72: -1398376751
+      HSS2_8: 1149836267
+      HSS2_9: 197189779
+      dizzy1: 762814505
+      dizzy2: 889256777
+      dizzy3: -900078854
+      fall1: -1873438321
+      fall2: -595902100
+      swing: -169498126
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
