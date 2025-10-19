@@ -24,6 +24,7 @@ public class PlayerScript : MonoBehaviour
     public string[] abilitynames = {"JumpToBeat", "Swing", "DashOnBeat", "BomberBunny" };
     public float[] cooldownTimes;
     public float[] cooldowns;
+    public GameObject shadow;
 
 
     //basic animation storage
@@ -38,6 +39,7 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         abilNum = 0;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        shadow = transform.GetChild(3).gameObject;
         groundedSprites = new Sprite[] { sprites[0], sprites[1], sprites[11], sprites[12], sprites[13] };
 
     }
@@ -239,13 +241,17 @@ public class PlayerScript : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = true;
         }
 
+        RaycastHit hit;
+        Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity);
+        shadow.transform.position = new Vector3(transform.position.x, hit.point.y + 0.011f, transform.position.z);
+
         //Tracks time in air. 
         airTime = !onGround ? airTime + Time.deltaTime : 0;
 
         //changes harmony sprite based on their velocity (jumping/falling)
         if (rb.linearVelocity.y != 0 && !spinning && !onGround)
         {
-            if (rb.linearVelocity.y < -10f && latestAnim == null)
+            if (rb.linearVelocity.y <= -13f && latestAnim == null)
             {
                 latestAnim = BasicAnim(new Sprite[] { sprites[5], sprites[6], sprites[7] }, 0.06f, true, -1, true);
                 StartCoroutine(latestAnim);
@@ -254,8 +260,8 @@ public class PlayerScript : MonoBehaviour
             {
                 GetComponent<SpriteRenderer>().sprite = rb.linearVelocity.y switch
                 {
-                    > 4 => sprites[2],
-                    > 2 => sprites[3],
+                    > 2 => sprites[2],
+                    > 1 => sprites[3],
                     > 0 => sprites[4],
                     < -5 => sprites[10],
                     < 0 => sprites[9],
