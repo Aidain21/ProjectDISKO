@@ -476,6 +476,11 @@ public class PlayerScript : MonoBehaviour
         if (other.CompareTag("Spike")) {
             AddHealth(-1);
         }
+
+        if (other.CompareTag("Collectable") && playerHealth < 3) {
+            AddHealth(1);
+            Destroy(other.gameObject);
+        }
     }
 
 }

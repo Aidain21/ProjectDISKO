@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Bombable
   - Spike
+  - Collectable
   layers:
   - Default
   - TransparentFX
