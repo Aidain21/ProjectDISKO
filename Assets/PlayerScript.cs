@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+
+
 public class PlayerScript : MonoBehaviour
 {
     Rigidbody rb;
@@ -21,7 +23,7 @@ public class PlayerScript : MonoBehaviour
     public int combo;
     public GameObject testBall;
     [Tooltip("When in lists the abilites go in this order: spinjump, swing, dash, bomb")]
-    public string[] abilitynames = {"JumpToBeat", "Swing", "DashOnBeat", "BomberBunny" };
+    public string[] abilitynames = {"None", "JumpToBeat", "Swing", "DashOnBeat", "BomberBunny" };
     public float[] cooldownTimes;
     public float[] cooldowns;
     public GameObject shadow;
@@ -117,7 +119,7 @@ public class PlayerScript : MonoBehaviour
                 }
 
                 //mid air twirl like mario when the right ability is active and on tempo, tracks the combo too.
-                if (abilitynames[abilNum] == "JumpToBeat" && !onGround && cooldowns[0] == 0)
+                if (abilitynames[abilNum] == "JumpToBeat" && airTime > 0.25f && cooldowns[1] == 0)
                 {
                     airTime = 0f;
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
@@ -132,7 +134,7 @@ public class PlayerScript : MonoBehaviour
                         rb.AddForce(Vector3.up * 7, ForceMode.Impulse);
                         ComboUp(-1);
                     }
-                    cooldowns[0] = cooldownTimes[0];
+                    cooldowns[1] = cooldownTimes[1];
                     StartCoroutine(Flip(!left, true, true));
                 }
                 
@@ -162,7 +164,7 @@ public class PlayerScript : MonoBehaviour
 
             //Initiates dash if everything here is good.
             if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && abilitynames[abilNum] == "DashOnBeat"
-                && (cooldowns[2] == 0 || infiniteDash) && canDash)
+                && (cooldowns[3] == 0 || infiniteDash) && canDash)
             {
                 if (!Physics.Raycast(transform.position, new Vector3(GetInput().x, 0, 0), out _, 0.3f) &&
                     !Physics.Raycast(transform.position, new Vector3(0, 0, GetInput().z), out _, 0.3f))
@@ -187,13 +189,13 @@ public class PlayerScript : MonoBehaviour
             }
 
             //Throws bombs if player is moving in the direction they are moving
-            if (Input.GetKeyDown(KeyCode.E) && abilitynames[abilNum] == "BomberBunny" && cooldowns[3] == 0)
+            if (Input.GetKeyDown(KeyCode.E) && abilitynames[abilNum] == "BomberBunny" && cooldowns[4] == 0)
             {
                 Vector3 spawn = transform.position + GetInput();
                 if (spawn != transform.position)
                 {
                     Instantiate(testBall, spawn, Quaternion.identity);
-                    cooldowns[3] = cooldownTimes[3];
+                    cooldowns[4] = cooldownTimes[4];
 
                 }
                 
@@ -201,10 +203,11 @@ public class PlayerScript : MonoBehaviour
             }
 
             //Change between abilities (temporary possibly)
-            if (Input.GetKeyDown(KeyCode.Alpha1)) { abilNum = 0; }
-            if (Input.GetKeyDown(KeyCode.Alpha2)) { abilNum = 1; }
-            if (Input.GetKeyDown(KeyCode.Alpha3)) { abilNum = 2; }
-            if (Input.GetKeyDown(KeyCode.Alpha4)) { abilNum = 3; }
+            if (Input.GetKeyDown(KeyCode.BackQuote)) { abilNum = 0; }
+            if (Input.GetKeyDown(KeyCode.Alpha1)) { abilNum = 1; }
+            if (Input.GetKeyDown(KeyCode.Alpha2)) { abilNum = 2; }
+            if (Input.GetKeyDown(KeyCode.Alpha3)) { abilNum = 3; }
+            if (Input.GetKeyDown(KeyCode.Alpha4)) { abilNum = 4; }
 
             //Change the music
             if (Input.GetKeyDown(KeyCode.P)) { transform.GetChild(0).GetComponent<MusicScript>().NextTrack(); }
@@ -236,7 +239,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if (transform.position.z >= 3.5f)
         {
-            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, 12);
+            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, 13);
             cam.transform.eulerAngles = new Vector3(30, 180, 0);
             GetComponent<SpriteRenderer>().flipX = true;
         }
@@ -319,9 +322,12 @@ public class PlayerScript : MonoBehaviour
 
     public Vector3 GetInput()
     {
-        if (transform.position.z >= 3.5f) { invert = -1; }
-        if (transform.position.z <= 2.5f) { invert = 1; }
+        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.UpArrow))
+        {
+            if (transform.position.z >= 3.5f) { invert = -1; }
+            if (transform.position.z <= 2.5f) { invert = 1; }
 
+        }
         return new Vector3(invert*Input.GetAxisRaw("Horizontal"), 0, invert*Input.GetAxisRaw("Vertical"));
     }
 
@@ -435,7 +441,7 @@ public class PlayerScript : MonoBehaviour
         rb.useGravity = true;
         canDash = true;
         inputsEnabled = true;
-        cooldowns[2] = cooldownTimes[2];
+        cooldowns[3] = cooldownTimes[3];
         GetComponent<SpriteRenderer>().color = Color.white;
 
     }
@@ -486,6 +492,11 @@ public class PlayerScript : MonoBehaviour
         if (other.CompareTag("Collectable") && playerHealth < 3) {
             AddHealth(1);
             Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("Teleport"))
+        {
+            transform.position = other.transform.GetChild(0).position;
         }
     }
 

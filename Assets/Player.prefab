@@ -771,16 +771,19 @@ MonoBehaviour:
   combo: 0
   testBall: {fileID: 7083403020590635542, guid: a0a7f590916837c4db218dbcda6bb944, type: 3}
   abilitynames:
+  - None
   - JumpToBeat
   - Swing
   - DashOnBeat
   - BomberBunny
   cooldownTimes:
-  - 5
+  - 0
+  - 3
   - 0
   - 5
   - 3
   cooldowns:
+  - 0
   - 0
   - 0
   - 0
