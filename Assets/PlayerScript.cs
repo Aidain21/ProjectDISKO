@@ -79,23 +79,23 @@ public class PlayerScript : MonoBehaviour
             rb.linearVelocity = GetInput() * curSpeed + new Vector3(0, Mathf.Max(rb.linearVelocity.y + -airTime * 0.05f, -13f), 0);
             Vector3 Direction = GetInput();
             //Flips sprite with little animation based on movement
-            if (Direction.x == -1 * invert && !left)
+            if ((Direction.x * invert) < 0 && !left)
             {
                 StartCoroutine(Flip(left));
                 left = !left;
             }
-            if (Direction.x == 1 * invert && left)
+            if ((Direction.x * invert) > 0 && left)
             {
                 StartCoroutine(Flip(left));
                 left = !left;
             }
 
             //Changes between front and back sprites
-            if (Direction.z == 1 * invert && !spinning)
+            if ((Direction.z * invert) > 0 && !spinning)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[1];
             }
-            if (Direction.z == -1 * invert && !spinning)
+            if ((Direction.z * invert) < 0 && !spinning)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[0];
             }
@@ -109,7 +109,7 @@ public class PlayerScript : MonoBehaviour
             }
 
             //jump
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0))
             {
                 //default off ground jump
                 //airTime adds coyote time effect (adds some forgiveness for the jump)
@@ -156,14 +156,14 @@ public class PlayerScript : MonoBehaviour
             }
 
             //allows for small jumps
-            if (Input.GetKeyUp(KeyCode.Space) && rb.linearVelocity != Vector3.zero && rb.linearVelocity.y > 0)
+            if ((Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton0)) && rb.linearVelocity != Vector3.zero && rb.linearVelocity.y > 0)
             {
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z);
             }
 
 
             //Initiates dash if everything here is good.
-            if (Input.GetKeyDown(KeyCode.LeftShift) && onGround == false && abilitynames[abilNum] == "DashOnBeat"
+            if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton1)) && onGround == false && abilitynames[abilNum] == "DashOnBeat"
                 && (cooldowns[3] == 0 || infiniteDash) && canDash)
             {
                 if (!Physics.Raycast(transform.position, new Vector3(GetInput().x, 0, 0), out _, 0.3f) &&
@@ -189,7 +189,7 @@ public class PlayerScript : MonoBehaviour
             }
 
             //Throws bombs if player is moving in the direction they are moving
-            if (Input.GetKeyDown(KeyCode.E) && abilitynames[abilNum] == "BomberBunny" && cooldowns[4] == 0)
+            if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1)) && abilitynames[abilNum] == "BomberBunny" && cooldowns[4] == 0)
             {
                 Vector3 spawn = transform.position + GetInput();
                 if (spawn != transform.position)
@@ -209,8 +209,10 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha3)) { abilNum = 3; }
             if (Input.GetKeyDown(KeyCode.Alpha4)) { abilNum = 4; }
 
+            if (Input.GetKeyDown(KeyCode.JoystickButton5)) { CycleAbility(); }
+
             //Change the music
-            if (Input.GetKeyDown(KeyCode.P)) { transform.GetChild(0).GetComponent<MusicScript>().NextTrack(); }
+            if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton4)) { transform.GetChild(0).GetComponent<MusicScript>().NextTrack(); }
             
 
             if (Input.GetKeyDown(KeyCode.M))
@@ -336,6 +338,18 @@ public class PlayerScript : MonoBehaviour
         combo = com + 1;
         string wow = new('!', combo);
         comboText.text = "Combo: " + combo + wow;
+    }
+
+    public void CycleAbility()
+    {
+        int index = -1;
+        for (int i = 0; i < abilitynames.Length; i++)
+        {
+            index = abilitynames[i] == abilitynames[abilNum] ? i : -1;
+            if (index != -1) { break; }
+        }
+        abilNum = index == abilitynames.Length - 1 ? 0 : index + 1;
+
     }
 
     public void AddHealth(int hp, bool set = false)

@@ -31,13 +31,13 @@ public class SwingingScript : MonoBehaviour
     {
         if (player.transform.gameObject.GetComponent<PlayerScript>().abilitynames[player.transform.gameObject.GetComponent<PlayerScript>().abilNum] == "Swing")
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1))
             {
                 Debug.Log("J");
                 StartSwing();
             }
 
-            if (Input.GetKeyUp(KeyCode.E))
+            if (Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.JoystickButton1))
             {
                 StopSwing();
             }
