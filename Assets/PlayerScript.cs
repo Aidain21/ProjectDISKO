@@ -9,9 +9,10 @@ public class PlayerScript : MonoBehaviour
     Rigidbody rb;
     public Camera cam;
     public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce, airTime;
-    public bool canJump = true, onGround,inputsEnabled = true, spinning , left;
-    public TMP_Text abilityTracker, comboText, speedText;
+    public bool canJump = true, onGround,inputsEnabled = true, spinning , left, mp3Collected = false;
+    public TMP_Text abilityTracker, comboText, speedText, coinText, mp3Text;
     public int invert, playerHealth = 3;
+    public static int coinCount = 0;
     public Sprite[] sprites, groundedSprites, healthBarSprites;
     public GameObject healthBar;
 
@@ -319,7 +320,16 @@ public class PlayerScript : MonoBehaviour
         {
             transform.position = Vector3.up;
         }
-        
+
+        coinText.text = "Coins: " + coinCount;
+
+        if (mp3Collected == false)
+        {
+            mp3Text.text = "0/1";
+        }
+        else {
+            mp3Text.text = "1/1";
+        }
     }
 
     public Vector3 GetInput()
@@ -503,7 +513,7 @@ public class PlayerScript : MonoBehaviour
             AddHealth(-1);
         }
 
-        if (other.CompareTag("Collectable") && playerHealth < 3) {
+        if (other.CompareTag("HealthCollectable") && playerHealth < 3) {
             AddHealth(1);
             Destroy(other.gameObject);
         }
@@ -512,6 +522,23 @@ public class PlayerScript : MonoBehaviour
         {
             transform.position = other.transform.GetChild(0).position;
         }
-    }
+
+        if (other.CompareTag("Collectable")) {
+            coinCount++;
+            Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("Collectable2")) {
+            coinCount += 2;
+            Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("MP3")) {
+            mp3Collected = true;
+            Destroy(other.gameObject);
+        }
+
+        
+    }  
 
 }
