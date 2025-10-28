@@ -730,8 +730,13 @@ MonoBehaviour:
   baseSpeed: 3
   curSpeed: 3
   maxSpeed: 8
-  jumpForce: 0
+  jumpForce: 7
   airTime: 0
+  maxFallSpeed: -13
+  fallSpeedIncreaseTick: 0.05
+  initialAirSpeedLoss: 1.2
+  airSpeedTimeLoss: 3
+  speedGain: 5
   canJump: 1
   onGround: 0
   inputsEnabled: 1
@@ -776,13 +781,16 @@ MonoBehaviour:
   - Swing
   - DashOnBeat
   - BomberBunny
+  - HoveringHare
   cooldownTimes:
   - 0
   - 3
   - 0
   - 5
   - 3
+  - 0
   cooldowns:
+  - 0
   - 0
   - 0
   - 0

@@ -8,8 +8,9 @@ public class PlayerScript : MonoBehaviour
 {
     Rigidbody rb;
     public Camera cam;
-    public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce, airTime;
-    public bool canJump = true, onGround,inputsEnabled = true, spinning , left;
+    public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce = 7f, airTime, maxFallSpeed = -13f, fallSpeedIncreaseTick = 0.05f,
+        initialAirSpeedLoss = 1.2f, airSpeedTimeLoss = 3f, speedGain = 5f;
+    public bool canJump = true, onGround,inputsEnabled = true, spinning , left, hovering;
     public TMP_Text abilityTracker, comboText, speedText;
     public int invert, playerHealth = 3;
     public Sprite[] sprites, groundedSprites, healthBarSprites;
@@ -23,7 +24,7 @@ public class PlayerScript : MonoBehaviour
     public int combo;
     public GameObject testBall;
     [Tooltip("When in lists the abilites go in this order: spinjump, swing, dash, bomb")]
-    public string[] abilitynames = {"None", "JumpToBeat", "Swing", "DashOnBeat", "BomberBunny" };
+    public string[] abilitynames = {"None", "JumpToBeat", "Swing", "DashOnBeat", "BomberBunny", "HoveringHare" };
     public float[] cooldownTimes;
     public float[] cooldowns;
     public GameObject shadow;
@@ -76,7 +77,7 @@ public class PlayerScript : MonoBehaviour
         if (inputsEnabled && (latestAnim == null || (latestAnim == breakableAnim)))
         {
             //Moves player
-            rb.linearVelocity = GetInput() * curSpeed + new Vector3(0, Mathf.Max(rb.linearVelocity.y + -airTime * 0.05f, -13f), 0);
+            rb.linearVelocity = GetInput() * curSpeed + new Vector3(0, Mathf.Max(rb.linearVelocity.y + -airTime * fallSpeedIncreaseTick, maxFallSpeed), 0);
             Vector3 Direction = GetInput();
             //Flips sprite with little animation based on movement
             if ((Direction.x * invert) < 0 && !left)
@@ -115,7 +116,7 @@ public class PlayerScript : MonoBehaviour
                 //airTime adds coyote time effect (adds some forgiveness for the jump)
                 if (onGround || airTime <= .12f)
                 {
-                    rb.AddForce(Vector3.up * 7, ForceMode.Impulse);
+                    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 }
 
                 //mid air twirl like mario when the right ability is active and on tempo, tracks the combo too.
@@ -125,13 +126,13 @@ public class PlayerScript : MonoBehaviour
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
                     if (transform.GetChild(0).GetComponent<MusicScript>().onTempo && !boostOnCooldown)
                     {
-                        rb.AddForce(Vector3.up * 10, ForceMode.Impulse);
+                        rb.AddForce(Vector3.up * jumpForce * 1.25f, ForceMode.Impulse);
                         ComboUp(combo);
                         boostOnCooldown = true;
                     }
                     else
                     {
-                        rb.AddForce(Vector3.up * 7, ForceMode.Impulse);
+                        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                         ComboUp(-1);
                     }
                     cooldowns[1] = cooldownTimes[1];
@@ -140,7 +141,18 @@ public class PlayerScript : MonoBehaviour
                 
 
             }
-            
+
+            if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton0)) && abilitynames[abilNum] == "HoveringHare" && rb.linearVelocity.y < 0)
+            {
+                maxFallSpeed = -2f;
+                hovering = true;
+            }
+            else
+            {
+                maxFallSpeed = -13f;
+                hovering = false;
+            }
+
             //Press enter to test combo
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -208,6 +220,7 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha2)) { abilNum = 2; }
             if (Input.GetKeyDown(KeyCode.Alpha3)) { abilNum = 3; }
             if (Input.GetKeyDown(KeyCode.Alpha4)) { abilNum = 4; }
+            if (Input.GetKeyDown(KeyCode.Alpha5)) { abilNum = 5; }
 
             if (Input.GetKeyDown(KeyCode.JoystickButton5)) { CycleAbility(); }
 
@@ -287,7 +300,7 @@ public class PlayerScript : MonoBehaviour
             {
                 if (curSpeed < maxSpeed)
                 {
-                    curSpeed += Time.deltaTime * 5;
+                    curSpeed += Time.deltaTime * speedGain;
                 }
                 if (curSpeed > maxSpeed)
                 {
@@ -297,10 +310,11 @@ public class PlayerScript : MonoBehaviour
             //in air movement speeds (still probably needs to be capped even more)
             else
             {
-                float maxAirSpeed = maxSpeed / (1.2f + airTime * 3f);
+                float maxAirSpeed = maxSpeed / (initialAirSpeedLoss + airTime * airSpeedTimeLoss);
+                if (hovering) { maxAirSpeed = 6f / (airTime * 1.5f); }
                 if (curSpeed < maxAirSpeed)
                 {
-                    curSpeed += Time.deltaTime * 5;
+                    curSpeed += Time.deltaTime * speedGain;
                 }
                 if (curSpeed > maxAirSpeed)
                 {
@@ -324,7 +338,7 @@ public class PlayerScript : MonoBehaviour
 
     public Vector3 GetInput()
     {
-        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetAxisRaw("Vertical") <= 0)
         {
             if (transform.position.z >= 3.5f) { invert = -1; }
             if (transform.position.z <= 2.5f) { invert = 1; }
