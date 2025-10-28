@@ -432,17 +432,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!114 &373132216 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5469608233180813270, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
-  m_PrefabInstance: {fileID: 763809055}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &383019622
 GameObject:
   m_ObjectHideFlags: 0
@@ -1372,14 +1361,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6962978548346952609, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
-      propertyPath: mp3Text
-      value: 
-      objectReference: {fileID: 2146399491}
-    - target: {fileID: 6962978548346952609, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
-      propertyPath: coinText
-      value: 
-      objectReference: {fileID: 373132216}
     - target: {fileID: 6962978548346952609, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
       propertyPath: healthText
       value: 
@@ -2904,17 +2885,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 65637171353968626, guid: 65370db826bf8f44aac987da070eb637, type: 3}
   m_PrefabInstance: {fileID: 6206446354091663638}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2146399491 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 483582369004776335, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
-  m_PrefabInstance: {fileID: 763809055}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &497465448908367466
 PrefabInstance:
   m_ObjectHideFlags: 0

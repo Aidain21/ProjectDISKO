@@ -1092,15 +1092,15 @@ MonoBehaviour:
   inputsEnabled: 1
   spinning: 0
   left: 0
+  hovering: 0
   mp3Collected: 0
   abilityTracker: {fileID: 1320053004356892483}
   comboText: {fileID: 8287836857539298379}
   speedText: {fileID: 1611253729699050562}
-  coinText: {fileID: 0}
-  mp3Text: {fileID: 0}
+  coinText: {fileID: 5469608233180813270}
+  mp3Text: {fileID: 483582369004776335}
   invert: 0
   playerHealth: 3
-  coinCount: 0
   sprites:
   - {fileID: 1476697195, guid: 7556b05c057456944bcc734a4a7690e3, type: 3}
   - {fileID: 138518424, guid: 7556b05c057456944bcc734a4a7690e3, type: 3}
