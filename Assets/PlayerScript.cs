@@ -10,7 +10,7 @@ public class PlayerScript : MonoBehaviour
     public Camera cam;
     public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce = 7f, airTime, maxFallSpeed = -13f, fallSpeedIncreaseTick = 0.05f,
         initialAirSpeedLoss = 1.2f, airSpeedTimeLoss = 3f, speedGain = 5f;
-    public bool canJump = true, onGround,inputsEnabled = true, spinning , left, hovering;
+    public bool canJump = true, onGround,inputsEnabled = true, spinning , left, hovering, mp3Collected = false;
     public TMP_Text abilityTracker, comboText, speedText, coinText, mp3Text;
     public int invert, playerHealth = 3;
     public static int coinCount = 0;
