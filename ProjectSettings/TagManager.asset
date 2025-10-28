@@ -10,6 +10,10 @@ TagManager:
   - Spike
   - Collectable
   - Teleport
+  - HealthCollectable
+  - Collectable2
+  - MP3
+  - MoneyWall
   layers:
   - Default
   - TransparentFX
