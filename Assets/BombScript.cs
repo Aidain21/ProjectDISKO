@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BombScript : MonoBehaviour
 {
+    public int deathTick;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,7 +26,11 @@ public class BombScript : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            deathTick++;
+            if (deathTick > 3)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
