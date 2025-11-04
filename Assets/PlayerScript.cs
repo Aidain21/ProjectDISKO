@@ -12,10 +12,12 @@ public class PlayerScript : MonoBehaviour
         initialAirSpeedLoss = 1.2f, airSpeedTimeLoss = 3f, speedGain = 5f;
     public bool canJump = true, onGround,inputsEnabled = true, spinning , left, hovering, mp3Collected = false;
     public TMP_Text abilityTracker, comboText, speedText, coinText, mp3Text;
-    public int invert, playerHealth = 3;
+    public int invert, playerHealth = 3, deaths;
     public static int coinCount = 0;
     public Sprite[] sprites, groundedSprites, healthBarSprites;
     public GameObject healthBar;
+    public Transform respawnPoint;
+    public Material activeCheckPoint, inactiveCheckPoint;
 
     [Header("Ability Variables")]
     //add to this list as more are made
@@ -24,8 +26,8 @@ public class PlayerScript : MonoBehaviour
     public bool boostOnCooldown, canDash = true, infiniteDash;
     public int combo;
     public GameObject testBall;
-    [Tooltip("When in lists the abilites go in this order: spinjump, swing, dash, bomb")]
-    public string[] abilitynames = {"None", "JumpToBeat", "Swing", "DashOnBeat", "BomberBunny", "HoveringHare" };
+    [Tooltip("When in lists the abilites go in this order: none, dash, bomb, glide, doublejump, swing")]
+    public string[] abilitynames = {"None", "Dash", "Bomber Bunny", "Hovering Hare", "Double Jump", "Swing" };
     public float[] cooldownTimes;
     public float[] cooldowns;
     public GameObject shadow;
@@ -39,6 +41,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        respawnPoint = GameObject.Find("StartCheckPoint").transform;
         breakableAnim = null;
         rb = GetComponent<Rigidbody>();
         abilNum = 0;
@@ -121,7 +124,7 @@ public class PlayerScript : MonoBehaviour
                 }
 
                 //mid air twirl like mario when the right ability is active and on tempo, tracks the combo too.
-                if (abilitynames[abilNum] == "JumpToBeat" && airTime > 0.25f && cooldowns[1] == 0)
+                if (abilitynames[abilNum] == "Double Jump" && airTime > 0.25f && cooldowns[4] == 0)
                 {
                     airTime = 0f;
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
@@ -136,14 +139,14 @@ public class PlayerScript : MonoBehaviour
                         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                         ComboUp(-1);
                     }
-                    cooldowns[1] = cooldownTimes[1];
+                    cooldowns[4] = cooldownTimes[4];
                     StartCoroutine(Flip(!left, true, true));
                 }
                 
 
             }
 
-            if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton0)) && abilitynames[abilNum] == "HoveringHare" && rb.linearVelocity.y < 0)
+            if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton0)) && abilitynames[abilNum] == "Hovering Hare" && rb.linearVelocity.y < 0)
             {
                 maxFallSpeed = -2f;
                 hovering = true;
@@ -176,8 +179,8 @@ public class PlayerScript : MonoBehaviour
 
 
             //Initiates dash if everything here is good.
-            if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton1)) && abilitynames[abilNum] == "DashOnBeat"
-                && (cooldowns[3] == 0 || infiniteDash) && canDash)
+            if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton1)) && abilitynames[abilNum] == "Dash"
+                && (cooldowns[1] == 0 || infiniteDash) && canDash)
             {
                 if (!Physics.Raycast(transform.position, new Vector3(GetInput().x, 0, 0), out _, 0.3f) &&
                     !Physics.Raycast(transform.position, new Vector3(0, 0, GetInput().z), out _, 0.3f))
@@ -202,13 +205,13 @@ public class PlayerScript : MonoBehaviour
             }
 
             //Throws bombs if player is moving in the direction they are moving
-            if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1)) && abilitynames[abilNum] == "BomberBunny" && cooldowns[4] == 0)
+            if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1)) && abilitynames[abilNum] == "Bomber Bunny" && cooldowns[2] == 0)
             {
                 Vector3 spawn = transform.position + GetInput();
                 if (spawn != transform.position)
                 {
                     Instantiate(testBall, spawn, Quaternion.identity);
-                    cooldowns[4] = cooldownTimes[4];
+                    cooldowns[2] = cooldownTimes[2];
 
                 }
                 
@@ -239,7 +242,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         //Text that tracks the velocity of the player, and the active ability
-        abilityTracker.text = "Active Ability (Num Keys): " + abilitynames[abilNum] 
+        abilityTracker.text = "Active Ability: " + abilitynames[abilNum] 
             + "\n Cooldown: " + (Mathf.Round(cooldowns[abilNum] * 100) / 100).ToString("F2");
         speedText.text = (Mathf.Round(rb.linearVelocity.x * 100) / 100).ToString("F2") +
             " " + (Mathf.Round(rb.linearVelocity.y * 100) / 100).ToString("F2") +
@@ -330,12 +333,13 @@ public class PlayerScript : MonoBehaviour
         }
        
         //repsawn
-        if (transform.position.y < -25)
+        if (transform.position.y < -20)
         {
-            transform.position = Vector3.up;
+            deaths++;
+            transform.position = respawnPoint.position;
         }
 
-        coinText.text = "Coins: " + coinCount;
+        coinText.text = "Coins: " + coinCount + " Deaths: " + deaths;
 
         if (mp3Collected == false)
         {
@@ -397,7 +401,9 @@ public class PlayerScript : MonoBehaviour
                 healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(320 * 0.75f, 150);
                 break;
             case int n when (n <= 0):
-                Destroy(gameObject);
+                transform.position = respawnPoint.position;
+                deaths++;
+                AddHealth(3, true);
                 break;
         }
 
@@ -479,7 +485,7 @@ public class PlayerScript : MonoBehaviour
         rb.useGravity = true;
         canDash = true;
         inputsEnabled = true;
-        cooldowns[3] = cooldownTimes[3];
+        cooldowns[1] = cooldownTimes[1];
         GetComponent<SpriteRenderer>().color = Color.white;
 
     }
@@ -535,6 +541,16 @@ public class PlayerScript : MonoBehaviour
         if (other.CompareTag("Teleport"))
         {
             transform.position = other.transform.GetChild(0).position;
+        }
+
+        if (other.CompareTag("CheckPoint"))
+        {
+            if (other.transform != respawnPoint)
+            {
+                respawnPoint.gameObject.GetComponent<MeshRenderer>().material = inactiveCheckPoint;
+                respawnPoint = other.gameObject.transform;
+                respawnPoint.gameObject.GetComponent<MeshRenderer>().material = activeCheckPoint;
+            }
         }
 
         if (other.CompareTag("Collectable")) {

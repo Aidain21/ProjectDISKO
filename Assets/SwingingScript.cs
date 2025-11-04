@@ -33,7 +33,6 @@ public class SwingingScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1))
             {
-                Debug.Log("J");
                 StartSwing();
             }
 

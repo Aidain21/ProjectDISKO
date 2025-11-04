@@ -1101,6 +1101,7 @@ MonoBehaviour:
   mp3Text: {fileID: 483582369004776335}
   invert: 0
   playerHealth: 3
+  deaths: 0
   sprites:
   - {fileID: 1476697195, guid: 7556b05c057456944bcc734a4a7690e3, type: 3}
   - {fileID: 138518424, guid: 7556b05c057456944bcc734a4a7690e3, type: 3}
@@ -1123,6 +1124,9 @@ MonoBehaviour:
   - {fileID: 955544784, guid: 53b97d57f269a644b8dea2105a11b1bc, type: 3}
   - {fileID: -804977913, guid: 53b97d57f269a644b8dea2105a11b1bc, type: 3}
   healthBar: {fileID: 3898948364223312745}
+  respawnPoint: {fileID: 0}
+  activeCheckPoint: {fileID: 2100000, guid: 00ccec9fa066a0742af01b0e82165ae9, type: 2}
+  inactiveCheckPoint: {fileID: 2100000, guid: 0123d76195f39b545b3c13fcb015af3b, type: 2}
   abilNum: 0
   boostOnCooldown: 0
   canDash: 1
@@ -1131,16 +1135,16 @@ MonoBehaviour:
   testBall: {fileID: 7083403020590635542, guid: a0a7f590916837c4db218dbcda6bb944, type: 3}
   abilitynames:
   - None
-  - JumpToBeat
+  - Dash
+  - Bomber Bunny
+  - Hovering Hare
+  - Double Jump
   - Swing
-  - DashOnBeat
-  - BomberBunny
-  - HoveringHare
   cooldownTimes:
   - 0
   - 3
+  - 3
   - 0
-  - 5
   - 3
   - 0
   cooldowns:

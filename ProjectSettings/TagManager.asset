@@ -14,6 +14,7 @@ TagManager:
   - Collectable2
   - MP3
   - MoneyWall
+  - CheckPoint
   layers:
   - Default
   - TransparentFX
