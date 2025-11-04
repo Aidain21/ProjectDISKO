@@ -176,7 +176,7 @@ public class PlayerScript : MonoBehaviour
 
 
             //Initiates dash if everything here is good.
-            if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton1)) && onGround == false && abilitynames[abilNum] == "DashOnBeat"
+            if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton1)) && abilitynames[abilNum] == "DashOnBeat"
                 && (cooldowns[3] == 0 || infiniteDash) && canDash)
             {
                 if (!Physics.Raycast(transform.position, new Vector3(GetInput().x, 0, 0), out _, 0.3f) &&

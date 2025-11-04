@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 3781048179460770976}
   - component: {fileID: 177736593870734593}
   - component: {fileID: 9084258884149987005}
-  - component: {fileID: 2643397428388862637}
-  - component: {fileID: 6883727062990785449}
   - component: {fileID: 964609038353465404}
   m_Layer: 0
   m_Name: Collectable
@@ -115,45 +113,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.676, y: 0.984, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!111 &2643397428388862637
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3665895020227327917}
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: cb612a1ad25d95f4b899cc9ba3aab1e8, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: cb612a1ad25d95f4b899cc9ba3aab1e8, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
---- !u!95 &6883727062990785449
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3665895020227327917}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 95d0b4a126324fb4d80da40d7aacd397, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &964609038353465404
 MonoBehaviour:
   m_ObjectHideFlags: 0
