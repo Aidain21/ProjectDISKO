@@ -9,7 +9,7 @@ public class PlayerScript : MonoBehaviour
     Rigidbody rb;
     public Camera cam;
     public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce = 7f, airTime, maxFallSpeed = -13f, fallSpeedIncreaseTick = 0.05f,
-        initialAirSpeedLoss = 1.2f, airSpeedTimeLoss = 3f, speedGain = 5f;
+        initialAirSpeedLoss = 1.2f, maxAirSpeed, airSpeedTimeLoss = 3f, speedGain = 5f;
     public bool canJump = true, onGround,inputsEnabled = true, spinning , left, hovering, mp3Collected = false;
     public TMP_Text abilityTracker, comboText, speedText, coinText, mp3Text;
     public int invert, playerHealth = 3, deaths;
@@ -314,7 +314,7 @@ public class PlayerScript : MonoBehaviour
             //in air movement speeds (still probably needs to be capped even more)
             else
             {
-                float maxAirSpeed = maxSpeed / (initialAirSpeedLoss + airTime * airSpeedTimeLoss);
+                maxAirSpeed = maxSpeed / (initialAirSpeedLoss + airTime * airSpeedTimeLoss);
                 if (hovering) { maxAirSpeed = 6f / (airTime * 1.5f); }
                 if (curSpeed < maxAirSpeed)
                 {
@@ -322,7 +322,8 @@ public class PlayerScript : MonoBehaviour
                 }
                 if (curSpeed > maxAirSpeed)
                 {
-                    curSpeed = maxAirSpeed;
+                    //curSpeed = maxAirSpeed;
+                    curSpeed -= maxAirSpeed / 100f;
                 }
             }
             
