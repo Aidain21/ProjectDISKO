@@ -10,7 +10,7 @@ public class PlayerScript : MonoBehaviour
     public Camera cam;
     public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce = 7f, airTime, maxFallSpeed = -13f, fallSpeedIncreaseTick = 0.05f,
         initialAirSpeedLoss = 1.2f, maxAirSpeed, airSpeedTimeLoss = 3f, speedGain = 5f;
-    public bool canJump = true, onGround,inputsEnabled = true, spinning , left, hovering, mp3Collected = false;
+    public bool canJump = true, onGround,inputsEnabled = true, spinning , left, hovering, mp3Collected = false, quickJump = false;
     public TMP_Text abilityTracker, comboText, speedText, coinText, mp3Text;
     public int invert, playerHealth = 3, deaths, cameraBackMain, cameraBackCorridor, cameraBackSecondary;
     public static int coinCount = 0;
@@ -56,6 +56,7 @@ public class PlayerScript : MonoBehaviour
     {
         //This is what checks if the player is on the ground
         onGround = Physics.Raycast(transform.GetChild(1).position, Vector3.down, out _, 0.2f);
+        quickJump = !onGround && airTime > 0.4f;
         bool reset = onGround;
         foreach (Sprite sp in groundedSprites)
         {
@@ -118,7 +119,7 @@ public class PlayerScript : MonoBehaviour
             {
                 //default off ground jump
                 //airTime adds coyote time effect (adds some forgiveness for the jump)
-                if (onGround || airTime <= .12f)
+                if (onGround || airTime <= .12f || (quickJump && Physics.Raycast(transform.GetChild(1).position, Vector3.down, out _, 0.35f)))
                 {
                     rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 }
@@ -176,6 +177,8 @@ public class PlayerScript : MonoBehaviour
             {
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z);
             }
+            
+
 
 
             //Initiates dash if everything here is good.
@@ -185,6 +188,7 @@ public class PlayerScript : MonoBehaviour
                 if (!Physics.Raycast(transform.position, new Vector3(GetInput().x, 0, 0), out _, 0.3f) &&
                     !Physics.Raycast(transform.position, new Vector3(0, 0, GetInput().z), out _, 0.3f))
                 {
+                    StartCoroutine(Flip(!left, true, true));
                     if (transform.GetChild(0).GetComponent<MusicScript>().onTempo)
                     {
                         dash = Dash(GetInput(), 3.5f);
@@ -412,7 +416,7 @@ public class PlayerScript : MonoBehaviour
                 AddHealth(3, true);
                 break;
         }
-
+        Debug.Log("grgreegregrqegrqegr");
     }
 
     //Flip the character, left for if they are already facing left, full if you just want to spin instead of turn
