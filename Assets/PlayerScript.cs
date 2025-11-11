@@ -12,7 +12,7 @@ public class PlayerScript : MonoBehaviour
         initialAirSpeedLoss = 1.2f, maxAirSpeed, airSpeedTimeLoss = 3f, speedGain = 5f;
     public bool canJump = true, onGround,inputsEnabled = true, spinning , left, hovering, mp3Collected = false;
     public TMP_Text abilityTracker, comboText, speedText, coinText, mp3Text;
-    public int invert, playerHealth = 3, deaths;
+    public int invert, playerHealth = 3, deaths, cameraBackMain, cameraBackCorridor, cameraBackSecondary;
     public static int coinCount = 0;
     public Sprite[] sprites, groundedSprites, healthBarSprites;
     public GameObject healthBar;
@@ -252,18 +252,23 @@ public class PlayerScript : MonoBehaviour
         //Moves camera with player, first for normal, second for the backside (backside needs a ton of work with controls being inverted due to camera angle)
         if (transform.position.z <= 2.5f)
         {
-            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, -7);
+            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, cameraBackMain);
             cam.transform.eulerAngles = new Vector3(30, 0, 0);
             GetComponent<SpriteRenderer>().flipX = false;
         }
-        else if (transform.position.z >= 3.5f)
+        else if (transform.position.z >= 3.5f && transform.position.z < 12.5f)
         {
-            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, 13);
+            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, cameraBackCorridor);
+            cam.transform.eulerAngles = new Vector3(30, 180, 0);
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else if (transform.position.z >= 12.5f){
+            cam.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, cameraBackSecondary);
             cam.transform.eulerAngles = new Vector3(30, 180, 0);
             GetComponent<SpriteRenderer>().flipX = true;
         }
 
-        RaycastHit hit;
+            RaycastHit hit;
         Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity);
         shadow.transform.position = new Vector3(transform.position.x, hit.point.y + 0.011f, transform.position.z);
 
