@@ -1085,6 +1085,7 @@ MonoBehaviour:
   maxFallSpeed: -13
   fallSpeedIncreaseTick: 0.05
   initialAirSpeedLoss: 1.2
+  maxAirSpeed: 0
   airSpeedTimeLoss: 3
   speedGain: 5
   canJump: 1
@@ -1094,6 +1095,7 @@ MonoBehaviour:
   left: 0
   hovering: 0
   mp3Collected: 0
+  quickJump: 0
   abilityTracker: {fileID: 1320053004356892483}
   comboText: {fileID: 8287836857539298379}
   speedText: {fileID: 1611253729699050562}
@@ -1102,6 +1104,9 @@ MonoBehaviour:
   invert: 0
   playerHealth: 3
   deaths: 0
+  cameraBackMain: 0
+  cameraBackCorridor: 0
+  cameraBackSecondary: 0
   sprites:
   - {fileID: 1476697195, guid: 7556b05c057456944bcc734a4a7690e3, type: 3}
   - {fileID: 138518424, guid: 7556b05c057456944bcc734a4a7690e3, type: 3}
@@ -1140,6 +1145,7 @@ MonoBehaviour:
   - Hovering Hare
   - Double Jump
   - Swing
+  active: 010000000000
   cooldownTimes:
   - 0
   - 3

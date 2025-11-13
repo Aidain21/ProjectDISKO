@@ -28,6 +28,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject testBall;
     [Tooltip("When in lists the abilites go in this order: none, dash, bomb, glide, doublejump, swing")]
     public string[] abilitynames = {"None", "Dash", "Bomber Bunny", "Hovering Hare", "Double Jump", "Swing" };
+    public bool[] active;
     public float[] cooldownTimes;
     public float[] cooldowns;
     public GameObject shadow;
@@ -224,11 +225,11 @@ public class PlayerScript : MonoBehaviour
 
             //Change between abilities (temporary possibly)
             if (Input.GetKeyDown(KeyCode.BackQuote)) { abilNum = 0; }
-            if (Input.GetKeyDown(KeyCode.Alpha1)) { abilNum = 1; }
-            if (Input.GetKeyDown(KeyCode.Alpha2)) { abilNum = 2; }
-            if (Input.GetKeyDown(KeyCode.Alpha3)) { abilNum = 3; }
-            if (Input.GetKeyDown(KeyCode.Alpha4)) { abilNum = 4; }
-            if (Input.GetKeyDown(KeyCode.Alpha5)) { abilNum = 5; }
+            if (Input.GetKeyDown(KeyCode.Alpha1) && active[1]) { abilNum = 1; }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && active[2]) { abilNum = 2; }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && active[3]) { abilNum = 3; }
+            if (Input.GetKeyDown(KeyCode.Alpha4) && active[4]) { abilNum = 4; }
+            if (Input.GetKeyDown(KeyCode.Alpha5) && active[5]) { abilNum = 5; }
 
             if (Input.GetKeyDown(KeyCode.JoystickButton5)) { CycleAbility(); }
 
@@ -416,7 +417,6 @@ public class PlayerScript : MonoBehaviour
                 AddHealth(3, true);
                 break;
         }
-        Debug.Log("grgreegregrqegrqegr");
     }
 
     //Flip the character, left for if they are already facing left, full if you just want to spin instead of turn

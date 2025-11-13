@@ -8710,6 +8710,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6962978548346952609, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
+      propertyPath: cameraBackMain
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962978548346952609, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
+      propertyPath: cameraBackCorridor
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
