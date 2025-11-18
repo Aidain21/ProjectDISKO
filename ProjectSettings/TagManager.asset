@@ -16,6 +16,7 @@ TagManager:
   - MoneyWall
   - CheckPoint
   - BombGranter
+  - LevelDone
   layers:
   - Default
   - TransparentFX

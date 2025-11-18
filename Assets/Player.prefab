@@ -1082,6 +1082,7 @@ MonoBehaviour:
   maxSpeed: 8
   jumpForce: 7
   airTime: 0
+  stillTime: 0
   maxFallSpeed: -13
   fallSpeedIncreaseTick: 0.05
   initialAirSpeedLoss: 1.2
@@ -1148,10 +1149,10 @@ MonoBehaviour:
   active: 010000000000
   cooldownTimes:
   - 0
-  - 3
+  - 999
   - 3
   - 0
-  - 3
+  - 999
   - 0
   cooldowns:
   - 0
@@ -1583,7 +1584,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6f83748f380f91148b7d4a642c5c27de, type: 3}
   - {fileID: 8300000, guid: f4fc08ea82d4d0c40b059b46d2757459, type: 3}
   - {fileID: 8300000, guid: 770e9fbeb3f9b37438f75f14c4bafe95, type: 3}
-  bpms: 4600000087000000360000005000000064000000
+  - {fileID: 8300000, guid: 5b1d688f65f74ff4988caad92f5b2f26, type: 3}
+  - {fileID: 8300000, guid: 0feb59e55bb874d44810c13b23fcf985, type: 3}
+  bpms: 46000000870000003600000050000000640000008a0000006e000000
   onTempo: 0
   bpm: 0
   timer: 0

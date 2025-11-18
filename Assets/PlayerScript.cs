@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerScript : MonoBehaviour
@@ -57,6 +58,7 @@ public class PlayerScript : MonoBehaviour
     {
         //This is what checks if the player is on the ground
         onGround = Physics.Raycast(transform.GetChild(1).position, Vector3.down, out _, 0.2f);
+        if (onGround && airTime > 0) { cooldowns[1] = 0; cooldowns[4] = 0; }
         quickJump = !onGround && airTime > 0.4f;
         bool reset = onGround;
         foreach (Sprite sp in groundedSprites)
@@ -591,6 +593,12 @@ public class PlayerScript : MonoBehaviour
             active[2] = true;
             Destroy(other.gameObject);
         }
+        
+        if (other.CompareTag("LevelDone"))
+        {
+            SceneManager.LoadScene(other.name);
+        }
+
 
         
     }  
