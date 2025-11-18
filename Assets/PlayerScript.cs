@@ -8,7 +8,7 @@ public class PlayerScript : MonoBehaviour
 {
     Rigidbody rb;
     public Camera cam;
-    public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce = 7f, airTime, maxFallSpeed = -13f, fallSpeedIncreaseTick = 0.05f,
+    public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce = 7f, airTime, stillTime, maxFallSpeed = -13f, fallSpeedIncreaseTick = 0.05f,
         initialAirSpeedLoss = 1.2f, maxAirSpeed, airSpeedTimeLoss = 3f, speedGain = 5f;
     public bool canJump = true, onGround,inputsEnabled = true, spinning , left, hovering, mp3Collected = false, quickJump = false;
     public TMP_Text abilityTracker, comboText, speedText, coinText, mp3Text;
@@ -233,6 +233,8 @@ public class PlayerScript : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.JoystickButton5)) { CycleAbility(); }
 
+            if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.JoystickButton12)) { transform.position = respawnPoint.position; }
+
             //Change the music
             if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton4)) { transform.GetChild(0).GetComponent<MusicScript>().NextTrack(); }
             
@@ -279,6 +281,8 @@ public class PlayerScript : MonoBehaviour
 
         //Tracks time in air. 
         airTime = !onGround ? airTime + Time.deltaTime : 0;
+
+        stillTime = rb.linearVelocity == Vector3.zero ? stillTime + Time.deltaTime : 0;
 
         //changes harmony sprite based on their velocity (jumping/falling)
         if (rb.linearVelocity.y != 0 && !spinning && !onGround)
@@ -340,7 +344,11 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            curSpeed = baseSpeed;
+            if (stillTime > 0.4f)
+            {
+                curSpeed = baseSpeed;
+            }
+            
         }
        
         //repsawn
