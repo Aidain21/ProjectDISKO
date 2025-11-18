@@ -578,6 +578,12 @@ public class PlayerScript : MonoBehaviour
             Destroy(other.gameObject);
         }
 
+        if (other.CompareTag("BombGranter"))
+        {
+            active[2] = true;
+            Destroy(other.gameObject);
+        }
+
         
     }  
 

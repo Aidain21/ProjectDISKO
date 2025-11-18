@@ -15,6 +15,7 @@ TagManager:
   - MP3
   - MoneyWall
   - CheckPoint
+  - BombGranter
   layers:
   - Default
   - TransparentFX
