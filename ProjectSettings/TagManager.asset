@@ -17,6 +17,7 @@ TagManager:
   - CheckPoint
   - BombGranter
   - LevelDone
+  - DashGranter
   layers:
   - Default
   - TransparentFX
