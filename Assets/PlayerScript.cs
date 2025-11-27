@@ -593,7 +593,14 @@ public class PlayerScript : MonoBehaviour
             active[2] = true;
             Destroy(other.gameObject);
         }
-        
+
+        if (other.CompareTag("DashGranter"))
+        {
+            active[1] = true;
+            Destroy(other.gameObject);
+            abilNum = 1;
+        }
+
         if (other.CompareTag("LevelDone"))
         {
             SceneManager.LoadScene(other.name);
