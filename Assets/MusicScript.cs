@@ -4,6 +4,7 @@ using System.Collections;
 
 public class MusicScript : MonoBehaviour
 {
+    public int startTrack;
     public AudioSource music;
     public AudioClip[] tracks;
     public int[] bpms;
@@ -12,12 +13,13 @@ public class MusicScript : MonoBehaviour
     public float timer;
     public int totalBeats;
     public RectTransform left, middle, right;
+    public string trackName;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        music = GetComponent<AudioSource>();
-        ChangeMusic(0);
+        music = GetComponent<AudioSource>();    
+        ChangeMusic(startTrack);
 
     }
 
@@ -70,16 +72,20 @@ public class MusicScript : MonoBehaviour
         music.clip = tracks[track];
         music.Play();
         bpm = bpms[track];
+        trackName = music.clip.name;
     }
 
     public void NextTrack()
     {
+        
         int index = -1;
         for (int i = 0; i < bpms.Length; i++) 
         {
             index = bpms[i] == bpm ? i : -1;
             if (index != -1) { break; }
         }
+        Debug.Log(bpms.Length);
+        Debug.Log(index == bpms.Length - 1 ? 0 : index + 1);
         ChangeMusic(index == bpms.Length - 1 ? 0 : index + 1);
 
     }
