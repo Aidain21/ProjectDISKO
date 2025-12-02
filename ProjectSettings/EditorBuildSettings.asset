@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AdamTest.unity
     guid: db3c44bbb410aa941a221c6b6605dea6
+  - enabled: 1
+    path: Assets/Scenes/AdamLevel.unity
+    guid: d9681ffd03428464eb6b5516c75d40ac
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
