@@ -10818,6 +10818,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6008764994617228336, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
+      propertyPath: startTrack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6113576313791243690, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
+      propertyPath: levelIntro
+      value: Level 2 - Waterfall Mountain
+      objectReference: {fileID: 0}
     - target: {fileID: 6491648186836267135, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
       propertyPath: m_Name
       value: Player

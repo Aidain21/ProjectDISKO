@@ -1,8 +1,7 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections;
-using UnityEngine.SceneManagement;
 
 
 public class PlayerScript : MonoBehaviour
@@ -10,8 +9,8 @@ public class PlayerScript : MonoBehaviour
     Rigidbody rb;
     public Camera cam;
     public float baseSpeed = 3f, curSpeed = 3f, maxSpeed = 8f, jumpForce = 7f, airTime, stillTime, maxFallSpeed = -13f, fallSpeedIncreaseTick = 0.05f,
-        initialAirSpeedLoss = 1.2f, maxAirSpeed, airSpeedTimeLoss = 3f, speedGain = 5f;
-    public bool canJump = true, onGround,inputsEnabled = true, spinning , left, hovering, mp3Collected = false, quickJump = false;
+        initialAirSpeedLoss = 1.2f, maxAirSpeed, airSpeedTimeLoss = 3f, speedGain = 5f, levelTimer;
+    public bool canJump = true, onGround, inputsEnabled = true, spinning, left, hovering, mp3Collected = false, quickJump = false;
     public TMP_Text abilityTracker, comboText, speedText, coinText, mp3Text;
     public int invert, playerHealth = 3, deaths, cameraBackMain, cameraBackCorridor, cameraBackSecondary;
     public static int coinCount = 0;
@@ -19,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject healthBar;
     public Transform respawnPoint;
     public Material activeCheckPoint, inactiveCheckPoint;
+    public string nextLevel;
 
     [Header("Ability Variables")]
     //add to this list as more are made
@@ -28,7 +28,7 @@ public class PlayerScript : MonoBehaviour
     public int combo;
     public GameObject testBall;
     [Tooltip("When in lists the abilites go in this order: none, dash, bomb, glide, doublejump, swing")]
-    public string[] abilitynames = {"None", "Dash", "Bomber Bunny", "Hovering Hare", "Double Jump", "Swing" };
+    public string[] abilitynames = { "None", "Dash", "Bomber Bunny", "Hovering Hare", "Double Jump", "Swing" };
     public bool[] active;
     public float[] cooldownTimes;
     public float[] cooldowns;
@@ -38,7 +38,7 @@ public class PlayerScript : MonoBehaviour
     //basic animation storage
     public IEnumerator latestAnim;
     public IEnumerator breakableAnim;
-    
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -146,7 +146,7 @@ public class PlayerScript : MonoBehaviour
                     cooldowns[4] = cooldownTimes[4];
                     StartCoroutine(Flip(!left, true, true));
                 }
-                
+
 
             }
 
@@ -180,7 +180,7 @@ public class PlayerScript : MonoBehaviour
             {
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z);
             }
-            
+
 
 
 
@@ -205,9 +205,9 @@ public class PlayerScript : MonoBehaviour
                         StartCoroutine(dash);
                         ComboUp(-1);
                     }
-                    
+
                 }
-               
+
 
             }
 
@@ -221,7 +221,7 @@ public class PlayerScript : MonoBehaviour
                     cooldowns[2] = cooldownTimes[2];
 
                 }
-                
+
 
             }
 
@@ -235,23 +235,28 @@ public class PlayerScript : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.JoystickButton5)) { CycleAbility(); }
 
-            if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.JoystickButton12)) { transform.position = respawnPoint.position; }
+            if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.JoystickButton12))
+            {
+                transform.position = respawnPoint.position; deaths++;
+                transform.GetChild(0).GetComponent<MusicScript>().DeathJingle();
+            }
 
             //Change the music
             if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton4)) { transform.GetChild(0).GetComponent<MusicScript>().NextTrack(); }
-            
+
 
             if (Input.GetKeyDown(KeyCode.M))
             {
                 rb.linearVelocity = Vector3.zero;
-                latestAnim = BasicAnim(new Sprite[] { sprites[11], sprites[12], sprites[13] }, 0.5f, true, -3 );
+                latestAnim = BasicAnim(new Sprite[] { sprites[11], sprites[12], sprites[13] }, 0.5f, true, -3);
                 StartCoroutine(latestAnim);
             }
-
+            levelTimer += Time.deltaTime;
+            comboText.text = "Timer: " + (Mathf.Round(levelTimer * 100) / 100).ToString("F2") + "s";
         }
 
         //Text that tracks the velocity of the player, and the active ability
-        abilityTracker.text = "Active Ability: " + abilitynames[abilNum] 
+        abilityTracker.text = "Active Ability: " + abilitynames[abilNum]
             + "\n Cooldown: " + (Mathf.Round(cooldowns[abilNum] * 100) / 100).ToString("F2");
         speedText.text = (Mathf.Round(rb.linearVelocity.x * 100) / 100).ToString("F2") +
             " " + (Mathf.Round(rb.linearVelocity.y * 100) / 100).ToString("F2") +
@@ -271,13 +276,14 @@ public class PlayerScript : MonoBehaviour
             cam.transform.eulerAngles = new Vector3(30, 180, 0);
             GetComponent<SpriteRenderer>().flipX = true;
         }
-        else if (transform.position.z >= 12.5f){
+        else if (transform.position.z >= 12.5f)
+        {
             cam.transform.position = new Vector3(transform.position.x, transform.position.y + 3f, cameraBackSecondary);
             cam.transform.eulerAngles = new Vector3(30, 180, 0);
             GetComponent<SpriteRenderer>().flipX = true;
         }
 
-            RaycastHit hit;
+        RaycastHit hit;
         Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity);
         shadow.transform.position = new Vector3(transform.position.x, hit.point.y + 0.011f, transform.position.z);
 
@@ -307,10 +313,10 @@ public class PlayerScript : MonoBehaviour
                 };
 
             }
-            
+
         }
 
-        
+
 
         //Speed up over time
         if (rb.linearVelocity != Vector3.zero)
@@ -342,7 +348,7 @@ public class PlayerScript : MonoBehaviour
                     curSpeed -= maxAirSpeed / 100f;
                 }
             }
-            
+
         }
         else
         {
@@ -350,13 +356,14 @@ public class PlayerScript : MonoBehaviour
             {
                 curSpeed = baseSpeed;
             }
-            
+
         }
-       
+
         //repsawn
         if (transform.position.y < -20)
         {
             deaths++;
+            transform.GetChild(0).GetComponent<MusicScript>().DeathJingle();
             transform.position = respawnPoint.position;
         }
 
@@ -366,7 +373,8 @@ public class PlayerScript : MonoBehaviour
         {
             mp3Text.text = "0/1";
         }
-        else {
+        else
+        {
             mp3Text.text = "1/1";
         }
     }
@@ -379,7 +387,7 @@ public class PlayerScript : MonoBehaviour
             if (transform.position.z <= 2.5f) { invert = 1; }
 
         }
-        return new Vector3(invert*Input.GetAxisRaw("Horizontal"), 0, invert*Input.GetAxisRaw("Vertical"));
+        return new Vector3(invert * Input.GetAxisRaw("Horizontal"), 0, invert * Input.GetAxisRaw("Vertical"));
     }
 
     void ComboUp(int com)
@@ -424,6 +432,7 @@ public class PlayerScript : MonoBehaviour
             case int n when (n <= 0):
                 transform.position = respawnPoint.position;
                 deaths++;
+                transform.GetChild(0).GetComponent<MusicScript>().DeathJingle();
                 AddHealth(3, true);
                 break;
         }
@@ -435,16 +444,16 @@ public class PlayerScript : MonoBehaviour
         Vector3 start, end;
         float addTime = 0;
         Sprite temp = null;
-        if (harmony) 
+        if (harmony)
         {
             temp = GetComponent<SpriteRenderer>().sprite;
             GetComponent<SpriteRenderer>().sprite = sprites[8];
             spinning = true;
         }
-        if (full) { addTime = 0.1f;  }
+        if (full) { addTime = 0.1f; }
         if (left)
         {
-            start = new Vector3(0,180,0);
+            start = new Vector3(0, 180, 0);
             end = Vector3.zero;
 
         }
@@ -453,7 +462,7 @@ public class PlayerScript : MonoBehaviour
             end = new Vector3(0, 180, 0);
             start = Vector3.zero;
         }
-        
+
         float elapsedTime = 0;
         while (elapsedTime < 0.15f + addTime)
         {
@@ -549,11 +558,13 @@ public class PlayerScript : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Spike")) {
+        if (other.CompareTag("Spike"))
+        {
             AddHealth(-1);
         }
 
-        if (other.CompareTag("HealthCollectable") && playerHealth < 3) {
+        if (other.CompareTag("HealthCollectable") && playerHealth < 3)
+        {
             AddHealth(1);
             Destroy(other.gameObject);
         }
@@ -573,17 +584,20 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-        if (other.CompareTag("Collectable")) {
+        if (other.CompareTag("Collectable"))
+        {
             coinCount++;
             Destroy(other.gameObject);
         }
 
-        if (other.CompareTag("Collectable2")) {
+        if (other.CompareTag("Collectable2"))
+        {
             coinCount += 2;
             Destroy(other.gameObject);
         }
 
-        if (other.CompareTag("MP3")) {
+        if (other.CompareTag("MP3"))
+        {
             mp3Collected = true;
             Destroy(other.gameObject);
         }
@@ -598,16 +612,35 @@ public class PlayerScript : MonoBehaviour
         {
             active[1] = true;
             Destroy(other.gameObject);
-            abilNum = 1;
+        }
+
+        if (other.CompareTag("SwingGranter"))
+        {
+            active[5] = true;
+            Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("DoubleGranter"))
+        {
+            active[4] = true;
+            Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("GlideGranter"))
+        {
+            active[3] = true;
+            Destroy(other.gameObject);
         }
 
         if (other.CompareTag("LevelDone"))
         {
-            SceneManager.LoadScene(other.name);
+            nextLevel = other.name;
+            transform.GetChild(0).GetComponent<MusicScript>().EndJingle();
+            transform.GetChild(4).GetChild(1).gameObject.SetActive(true);
         }
 
 
-        
-    }  
+
+    }
 
 }

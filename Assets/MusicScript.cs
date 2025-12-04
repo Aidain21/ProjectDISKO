@@ -5,6 +5,7 @@ using System.Collections;
 public class MusicScript : MonoBehaviour
 {
     public int startTrack;
+    public AudioClip endJingle;
     public AudioSource music;
     public AudioClip[] tracks;
     public int[] bpms;
@@ -14,6 +15,10 @@ public class MusicScript : MonoBehaviour
     public int totalBeats;
     public RectTransform left, middle, right;
     public string trackName;
+    public AudioClip deathDying;
+    public bool end;
+    public float pauseTime;
+
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,6 +45,11 @@ public class MusicScript : MonoBehaviour
                 }
                 timer = 0;
             }
+        }
+
+        if (!music.isPlaying && !end)
+        {
+            music.Play();
         }
         
     }
@@ -72,6 +82,14 @@ public class MusicScript : MonoBehaviour
         music.clip = tracks[track];
         music.Play();
         bpm = bpms[track];
+        if (bpm == 110)
+        {
+            music.volume = 0.5f;
+        }
+        else
+        {
+            music.volume = 1;
+        }
         trackName = music.clip.name;
     }
 
@@ -88,6 +106,20 @@ public class MusicScript : MonoBehaviour
         Debug.Log(index == bpms.Length - 1 ? 0 : index + 1);
         ChangeMusic(index == bpms.Length - 1 ? 0 : index + 1);
 
+    }
+
+    public void EndJingle()
+    {
+        end = true;
+        music.Stop();
+        music.PlayOneShot(endJingle);
+    }
+
+    public void DeathJingle()
+    {
+        pauseTime = music.time;
+        music.Stop();
+        music.PlayOneShot(deathDying);
     }
 }
 

@@ -18,6 +18,9 @@ TagManager:
   - BombGranter
   - LevelDone
   - DashGranter
+  - SwingGranter
+  - DoubleGranter
+  - GlideGranter
   layers:
   - Default
   - TransparentFX

@@ -1037,7 +1037,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &849198402
@@ -1075,18 +1075,59 @@ MonoBehaviour:
   curSpeed: 3
   maxSpeed: 10
   jumpForce: 0
+  airTime: 0
+  stillTime: 0
+  maxFallSpeed: -13
+  fallSpeedIncreaseTick: 0.05
+  initialAirSpeedLoss: 1.2
+  maxAirSpeed: 0
+  airSpeedTimeLoss: 3
+  speedGain: 5
+  levelTimer: 0
   canJump: 1
-  alreadyBoosted: 0
   onGround: 0
-  canDash: 1
   inputsEnabled: 1
-  speedTracker: {fileID: 1686434280}
-  ballerText: {fileID: 1588048141}
+  spinning: 0
+  left: 0
+  hovering: 0
+  mp3Collected: 0
+  quickJump: 0
+  abilityTracker: {fileID: 0}
   comboText: {fileID: 1730411590}
-  baller: 0
+  speedText: {fileID: 0}
+  coinText: {fileID: 0}
+  mp3Text: {fileID: 0}
   invert: 0
+  playerHealth: 3
+  deaths: 0
+  cameraBackMain: 0
+  cameraBackCorridor: 0
+  cameraBackSecondary: 0
+  sprites: []
+  groundedSprites: []
+  healthBarSprites: []
+  healthBar: {fileID: 0}
+  respawnPoint: {fileID: 0}
+  activeCheckPoint: {fileID: 0}
+  inactiveCheckPoint: {fileID: 0}
+  nextLevel: 
+  abilNum: 0
+  boostOnCooldown: 0
+  canDash: 1
+  infiniteDash: 0
   combo: 0
-  activeAbility: 
+  testBall: {fileID: 0}
+  abilitynames:
+  - None
+  - Dash
+  - Bomber Bunny
+  - Hovering Hare
+  - Double Jump
+  - Swing
+  active: 
+  cooldownTimes: []
+  cooldowns: []
+  shadow: {fileID: 0}
 --- !u!54 &849198404
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2178,12 +2219,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce59298849b0834eb8b0304434d770b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  startTrack: 0
+  endJingle: {fileID: 0}
   music: {fileID: 0}
   tracks:
   - {fileID: 8300000, guid: 89d1880bc37e36d4683dae6fe50b2f31, type: 3}
+  bpms: 
   onTempo: 0
   bpm: 0
   timer: 0
+  totalBeats: 0
+  left: {fileID: 0}
+  middle: {fileID: 0}
+  right: {fileID: 0}
+  trackName: 
+  deathDying: {fileID: 0}
 --- !u!212 &1524654928
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2239,7 +2289,7 @@ SpriteRenderer:
   m_Size: {x: 0.5555556, y: 0.8622222}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1577867320
@@ -3228,6 +3278,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1985494105}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &2136766869
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5365468779367942723, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_Name
+      value: StartCheckPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313430670769341148, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.7766237
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313430670769341148, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.3292377
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313430670769341148, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313430670769341148, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313430670769341148, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313430670769341148, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313430670769341148, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313430670769341148, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313430670769341148, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313430670769341148, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cb299aae98420954f8ba3d03bcd00709, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -3239,3 +3346,4 @@ SceneRoots:
   - {fileID: 1281455860}
   - {fileID: 1251850285}
   - {fileID: 1577867324}
+  - {fileID: 2136766869}
