@@ -237,8 +237,7 @@ public class PlayerScript : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.JoystickButton12))
             {
-                transform.position = respawnPoint.position; deaths++;
-                transform.GetChild(0).GetComponent<MusicScript>().DeathJingle();
+                Die();
             }
 
             //Change the music
@@ -362,9 +361,7 @@ public class PlayerScript : MonoBehaviour
         //repsawn
         if (transform.position.y < -20)
         {
-            deaths++;
-            transform.GetChild(0).GetComponent<MusicScript>().DeathJingle();
-            transform.position = respawnPoint.position;
+            Die();
         }
 
         coinText.text = "Coins: " + coinCount + " Deaths: " + deaths;
@@ -430,12 +427,19 @@ public class PlayerScript : MonoBehaviour
                 healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(320 * 0.75f, 150);
                 break;
             case int n when (n <= 0):
-                transform.position = respawnPoint.position;
-                deaths++;
-                transform.GetChild(0).GetComponent<MusicScript>().DeathJingle();
-                AddHealth(3, true);
+                Die();
                 break;
         }
+    }
+
+    public void Die()
+    {
+        deaths++;
+        transform.GetChild(0).GetComponent<MusicScript>().DeathJingle();
+        rb.linearVelocity = Vector3.zero;
+        latestAnim = BasicAnim(new Sprite[] { sprites[11], sprites[12], sprites[13] }, 0.37f, true, 3, false, true);
+        StartCoroutine(latestAnim);
+        AddHealth(3, true);
     }
 
     //Flip the character, left for if they are already facing left, full if you just want to spin instead of turn
@@ -519,7 +523,7 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    public IEnumerator BasicAnim(Sprite[] frames, float timeBetween, bool backAndForth = false, int cycles = -1, bool stopOnGrounded = false)
+    public IEnumerator BasicAnim(Sprite[] frames, float timeBetween, bool backAndForth = false, int cycles = -1, bool stopOnGrounded = false, bool respawn = false)
     {
         IEnumerator self = latestAnim;
         int curFrame = 0;
@@ -542,6 +546,7 @@ public class PlayerScript : MonoBehaviour
             if (stopOnGrounded && onGround) { break; }
         }
         latestAnim = null;
+        if (respawn) { transform.position = respawnPoint.position; }
 
     }
 

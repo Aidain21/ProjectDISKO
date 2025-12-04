@@ -10819,6 +10819,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6008764994617228336, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
+      propertyPath: endJingle
+      value: 
+      objectReference: {fileID: 8300000, guid: 5341423cf5b91f94894fd7ebaf9d3f59, type: 3}
+    - target: {fileID: 6008764994617228336, guid: 372bd7b1f786bf340a1c94e4bf279290, type: 3}
       propertyPath: startTrack
       value: 1
       objectReference: {fileID: 0}

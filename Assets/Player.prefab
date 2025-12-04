@@ -212,8 +212,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 534dfdaa153aeb546a33a68a36992e6f, type: 2}
-  m_sharedMaterial: {fileID: -2623918442429973998, guid: 534dfdaa153aeb546a33a68a36992e6f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4cb52931dfdb62244b0ff2028a27e34b, type: 2}
+  m_sharedMaterial: {fileID: -2623918442429973998, guid: 4cb52931dfdb62244b0ff2028a27e34b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -390,7 +390,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -760, y: -460}
+  m_AnchoredPosition: {x: -738, y: -460}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7644419614260675687
@@ -498,8 +498,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
-  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 534dfdaa153aeb546a33a68a36992e6f, type: 2}
+  m_sharedMaterial: {fileID: -2623918442429973998, guid: 534dfdaa153aeb546a33a68a36992e6f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -745,7 +745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.77254903}
+  m_Color: {r: 0.02745098, g: 0.28235295, b: 0.64705884, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -959,7 +959,6 @@ MonoBehaviour:
   pause: {fileID: 1434106814392745583}
   finish: {fileID: 1083529901788620562}
   player: {fileID: 0}
-  musicScript: {fileID: 0}
   music: {fileID: 6132674537375586653}
   levelIntro: ChangeMe!
   levelIntroText: {fileID: 2634985529412274178}
@@ -1646,8 +1645,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0/1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a4ebc3fbec878fe4497cc5e434da2633, type: 2}
+  m_sharedMaterial: {fileID: 3731414615427094030, guid: a4ebc3fbec878fe4497cc5e434da2633, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2179,8 +2178,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0e573e237b34b8144b10042e8402ca92, type: 2}
+  m_sharedMaterial: {fileID: -7376782422493422442, guid: 0e573e237b34b8144b10042e8402ca92, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2755,7 +2754,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -741, y: -150}
+  m_AnchoredPosition: {x: -741, y: -155}
   m_SizeDelta: {x: 374, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7321230095096373652
@@ -3061,7 +3060,9 @@ MonoBehaviour:
   middle: {fileID: 731285934868444360}
   right: {fileID: 8621733429931979124}
   trackName: 
-  deathDying: {fileID: 8300000, guid: dcd3c4219ee92f44a9694098d7a9d058, type: 3}
+  deathDying: {fileID: 8300000, guid: 00f138d206c805d4bbad5d77f8d3c3dc, type: 3}
+  end: 0
+  pauseTime: 0
 --- !u!82 &3543630962866172430
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3193,7 +3194,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -11.5}
   m_SizeDelta: {x: -200, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1869925692715046196
@@ -3225,9 +3226,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\nControls: \nEsc - Pause/Unpause\nWASD/Arrow Keys - Movement\nSpace -
-    Jump\nL - Teleport to Last Checkpoint\nP - Rotate Music (Not Recomended)\nM -
-    Stun Yourself (HIGHLY recommended)\n\nNeeds to be unlocked: \n1 - Dash Mode |
-    Shift - Dash\n2 - Bomb Mode | E - Throw Bomb"
+    Jump\nL - Go to Last Checkpoint (Counts as a Death)\nP - Rotate Music (Not Recomended)\nM
+    - Stun Yourself (HIGHLY recommended)\n\nNeeds to be unlocked: \n1 - Dash Mode
+    | Shift - Dash\n2 - Bomb Mode | E - Throw Bomb\n\nController will also work!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a4ebc3fbec878fe4497cc5e434da2633, type: 2}
   m_sharedMaterial: {fileID: 3731414615427094030, guid: a4ebc3fbec878fe4497cc5e434da2633, type: 2}
